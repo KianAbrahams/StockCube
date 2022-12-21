@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using StockCube.Domain.KitchenModule;
 
 namespace StockCube.WebAPI.WebAPI.V1.KitchenModule
 {
@@ -8,42 +7,21 @@ namespace StockCube.WebAPI.WebAPI.V1.KitchenModule
     [ApiController]
     public class SectionController : ControllerBase
     {
+        private readonly ISectionService _sectionService;
+
+        public SectionController(ISectionService sectionService)
+            => _sectionService = sectionService;
+
         [HttpGet]
-        public async Task<ActionResult<SectionResponseDto>> GetListAsync()
+        public async Task<ActionResult<IEnumerable<SectionResponseDto>>> GetListAsync()
         {
-            //return await Task.FromResult(Ok(new SectionResponseDto() { Name = "" }));
-            return Ok(new SectionResponseDto());
+            var result = await _sectionService.GetListAsync();
+            var response = new List<SectionResponseDto>();
+            foreach (var section in result)
+            {
+                response.Add(new SectionResponseDto { Name = section.Name });
+            }
+            return Ok(response.AsEnumerable());
         }
-        //// GET: api/<SectionController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        //// GET api/<SectionController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
-        //// POST api/<SectionController>
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        //// PUT api/<SectionController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/<SectionController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
