@@ -1,13 +1,14 @@
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Expressions;
 using NSubstitute;
 using StockCube.Domain.KitchenModule;
 using StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
 namespace StockCube.Test.WebAPI.V1.KitchenModule;
 
-public class SectionController_Get_Should
+public sealed class SectionController_Get_Should
 {
     [Fact]
     public async Task Return_Status200Ok_WithListOfSections()
@@ -33,7 +34,9 @@ public class SectionController_Get_Should
         response.Result.Should().NotBeNull();
         response.Result.Should().BeOfType<OkObjectResult>();
 
+
         var result = (OkObjectResult)response.Result;
+
         result.Value.Should().NotBeNull();
         result.Value.Should().BeAssignableTo<IEnumerable<SectionResponseDto>>();
 
@@ -82,3 +85,5 @@ public class SectionController_Get_Should
         value.Id.Should().Be(sectionId);
     }
 }
+#pragma warning restore CA1707 // Identifiers should not contain underscores
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
