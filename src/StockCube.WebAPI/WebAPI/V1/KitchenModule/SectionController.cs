@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StockCube.Domain.KitchenModule;
+using static System.Collections.Specialized.BitVector32;
 
 namespace StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
@@ -26,15 +27,16 @@ public sealed class SectionController : ControllerBase
     [HttpGet("{Id}")] 
     public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid Id)
     {
-        var result = await _sectionService.GetListAsync();
-        var response = new Section();
-        foreach (var section in result)
+        var result = await _sectionService.GetByIdAsync(Id);
+        if (result == null)
         {
-            if (section.Id == Id)
-            {
-                response = section;
-            }
+            return NotFound();
         }
+        var response = new SectionResponseDto()
+        {
+            Name = result.Name,
+            Id = result.Id
+        };
         return Ok(response);
     }
 }
