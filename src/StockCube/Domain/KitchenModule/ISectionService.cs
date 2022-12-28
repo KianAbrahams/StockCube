@@ -2,6 +2,6 @@ namespace StockCube.Domain.KitchenModule;
 
 public interface ISectionService 
 {
-    Task<IEnumerable<Section>> GetListAsync();
-    Task<Section?> GetByIdAsync(Guid Id);
+    Task<Result<IEnumerable<Section>>> GetListAsync();
+    Task<Result<Section>> GetByIdAsync(Guid Id);
 }

@@ -20,7 +20,7 @@ public sealed class SectionController_Get_Should
             new Section { Name = "Section2", Id = Guid.NewGuid()}
         };
         var mockSectionService = Substitute.For<ISectionService>();
-        mockSectionService.GetListAsync().Returns(Task.FromResult(testSection.AsEnumerable()));
+        mockSectionService.GetListAsync().Returns(Task.FromResult(Result<IEnumerable<Section>>.Success(testSection.AsEnumerable())));
 
         var services = new ServiceCollection();
         services.AddTransient<SectionController>();
@@ -60,7 +60,7 @@ public sealed class SectionController_GetById_Should
         var sectionId = Guid.NewGuid();
         var testSection = new Section() { Id = sectionId, Name = "Section1" };
         var mockSectionService = Substitute.For<ISectionService>();
-        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(testSection));
+        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section>.Success(testSection)));
 
         var services = new ServiceCollection();
         services.AddTransient<SectionController>();
@@ -87,9 +87,8 @@ public sealed class SectionController_GetById_Should
     {
         // arrange
         var sectionId = Guid.NewGuid();
-        Section testSection = null;
         var mockSectionService = Substitute.For<ISectionService>();
-        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(testSection));
+        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section>.NotFound()));
 
         var services = new ServiceCollection();
         services.AddTransient<SectionController>();

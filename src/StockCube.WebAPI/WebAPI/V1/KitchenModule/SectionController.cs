@@ -1,3 +1,4 @@
+using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
 using StockCube.Domain.KitchenModule;
 using static System.Collections.Specialized.BitVector32;
@@ -18,7 +19,7 @@ public sealed class SectionController : ControllerBase
     {
         var result = await _sectionService.GetListAsync();
         var response = new List<SectionResponseDto>();
-        foreach (var section in result)
+        foreach (var section in result.Value)
         {
             response.Add(new SectionResponseDto { Name = section.Name, Id = section.Id });
         }
@@ -28,14 +29,14 @@ public sealed class SectionController : ControllerBase
     public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid Id)
     {
         var result = await _sectionService.GetByIdAsync(Id);
-        if (result == null)
+        if (result.Status == ResultStatus.NotFound)
         {
             return NotFound();
         }
         var response = new SectionResponseDto()
         {
-            Name = result.Name,
-            Id = result.Id
+            Name = result.Value.Name,
+            Id = result.Value.Id
         };
         return Ok(response);
     }
