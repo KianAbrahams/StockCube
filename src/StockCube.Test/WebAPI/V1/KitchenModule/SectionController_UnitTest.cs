@@ -15,8 +15,8 @@ public class SectionController_Get_Should
         // arrange
         var testSection = new List<Section>()
         {
-            new Section { Name = "Section1" },
-            new Section { Name = "Section2" }
+            new Section { Name = "Section1", Id = Guid.NewGuid() },
+            new Section { Name = "Section2", Id = Guid.NewGuid()}
         };
         var mockSectionService = Substitute.For<ISectionService>();
         mockSectionService.GetListAsync().Returns(Task.FromResult(testSection.AsEnumerable()));
@@ -46,5 +46,39 @@ public class SectionController_Get_Should
         {
             items[i].Name.Should().Be(testSection[i].Name);
         }
+    }
+
+    [Fact]
+    public async Task Return_Status200Ok_WithSelectedSection()
+    {
+        // arrange
+        var sectionId = Guid.NewGuid();
+        var testSection = new List<Section>()
+        {
+            new Section { Name = "Section1", Id = sectionId },
+            new Section { Name = "Section2", Id = Guid.NewGuid() },
+            new Section { Name = "Section3", Id = Guid.NewGuid() }
+        };
+        var mockSectionService = Substitute.For<ISectionService>();
+        mockSectionService.GetListAsync().Returns(Task.FromResult(testSection.AsEnumerable()));
+
+        var services = new ServiceCollection();
+        services.AddTransient<SectionController>();
+        services.AddSingleton(mockSectionService);
+
+        // act
+        var response = await services.BuildServiceProvider().GetRequiredService<SectionController>().GetByIdAsync(sectionId);
+
+        // assert
+        response.Should().NotBeNull();
+        response.Result.Should().BeAssignableTo<OkObjectResult>();
+
+        var result = (OkObjectResult)response.Result;
+        result.Value.Should().NotBeNull();
+        result.Value.Should().BeAssignableTo<Section>();
+
+        var value = (Section)result.Value;
+        value.Should().NotBeNull();
+        value.Id.Should().Be(sectionId);
     }
 }

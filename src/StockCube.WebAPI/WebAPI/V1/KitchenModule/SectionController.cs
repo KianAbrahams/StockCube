@@ -19,9 +19,23 @@ namespace StockCube.WebAPI.WebAPI.V1.KitchenModule
             var response = new List<SectionResponseDto>();
             foreach (var section in result)
             {
-                response.Add(new SectionResponseDto { Name = section.Name });
+                response.Add(new SectionResponseDto { Name = section.Name, Id = section.Id });
             }
             return Ok(response.AsEnumerable());
+        }
+        [HttpGet("{Id}")] 
+        public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid Id)
+        {
+            var result = await _sectionService.GetListAsync();
+            var response = new Section();
+            foreach (var section in result)
+            {
+                if (section.Id == Id)
+                {
+                    response = section;
+                }
+            }
+            return Ok(response);
         }
     }
 }
