@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.Result" Version="4.1.0" />
+    <PackageReference Include="Ardalis.Result.FluentValidation" Version="4.1.0" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
   </ItemGroup>
 
 </Project>

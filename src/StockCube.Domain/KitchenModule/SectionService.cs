@@ -1,3 +1,4 @@
+using Ardalis.Result.FluentValidation;
 using StockCube.Infrastructure.KitchenModule;
 
 namespace StockCube.Domain.KitchenModule;
@@ -5,9 +6,13 @@ namespace StockCube.Domain.KitchenModule;
 internal sealed class SectionService : ISectionService
 {
     private readonly IRepository _repository;
+    private readonly ISectionValidator _validator;
 
-    public SectionService(IRepository repository)
-        => _repository = repository;
+    public SectionService(IRepository repository, ISectionValidator validator)
+    {
+        _repository = repository;
+        _validator = validator;
+    }
 
     public async Task<Result<IEnumerable<Section>>> GetListAsync()
     {
@@ -40,6 +45,12 @@ internal sealed class SectionService : ISectionService
 
     public async Task<Result<Section>> CreateSection(Section section)
     {
+        var validationResult = await _validator.ValidateAsync(section);
+        if (validationResult.IsValid == false)
+        {
+            return Result<Section>.Invalid(validationResult.AsErrors());
+        }
+
         var result = await _repository.CreateSection(section);
         if (result == null)
         {

@@ -1,10 +1,15 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+using Ardalis.Result;
 using FluentAssertions.Common;
+using FluentResults;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using StockCube.Domain.KitchenModule;
 using StockCube.Infrastructure.KitchenModule;
+using StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
 namespace StockCube.Test.Domain;
 
@@ -188,6 +193,42 @@ public sealed class SectionController_CreateSection_Should
         response.Status.Should().Be(ResultStatus.Error);
 
         response.Value.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task Return_Invalid_WhenSectionIsInvalid()
+    {
+        // arrange
+        var testSection = new Section() { Id = Guid.NewGuid(), Name = "" };
+
+        var validationResult = new ValidationResult()
+        {
+            Errors = new List<ValidationFailure>()
+            {
+                new ValidationFailure() { PropertyName = "Name", ErrorMessage = "Should not be empty" }
+            }
+        };
+
+        var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
+        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult<ValidationResult>(validationResult));
+
+        var services = new ServiceCollection();
+        services.AddStockCubeDomainModel();
+        services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
+
+        // act
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection(testSection);
+
+        // assert
+        response.Should().NotBeNull();
+        response.Status.Should().Be(ResultStatus.Invalid);
+
+        response.ValidationErrors.Should().NotBeEmpty();
+
+        await mockRepository.DidNotReceive().CreateSection(Arg.Any<Section>());
     }
 }
 #pragma warning restore CA1707 // Identifiers should not contain underscores
