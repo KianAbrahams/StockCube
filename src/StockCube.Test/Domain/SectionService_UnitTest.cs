@@ -1,5 +1,6 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+using FluentAssertions.Common;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using StockCube.Domain.KitchenModule;
@@ -89,6 +90,101 @@ public sealed class SectionController_GetById_Should
         response.Status.Should().Be(ResultStatus.NotFound);
 
         response.Value.Should().BeNull();  
+    }
+}
+
+public sealed class SectionController_DeleteById_Should
+{
+    [Fact]
+    public async Task Return_SuccessResult_WhenDeletedUsingValidId()
+    {
+        // arrange
+        var sectionId = Guid.NewGuid();
+        var mockRepository = Substitute.For<IRepository>();
+        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(true));
+
+        var services = new ServiceCollection();
+        services.AddStockCubeDomainModel();
+        services.AddSingleton(mockRepository);
+
+        //act
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteSectionByIdAsync(sectionId);
+
+        // assert
+        response.Should().NotBeNull();
+        response.Status.Should().Be(ResultStatus.Ok);
+
+        response.Value.Should().BeNull();   
+    }
+
+    [Fact]
+    public async Task Return_NotFoundResult_WhenDeletedUsingUnknownId()
+    {
+        // arrange
+        var sectionId = Guid.NewGuid();
+        var mockRepository = Substitute.For<IRepository>();
+        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(false));
+
+        var services = new ServiceCollection();
+        services.AddStockCubeDomainModel();
+        services.AddSingleton(mockRepository);
+
+        //act
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteSectionByIdAsync(sectionId);
+
+        // assert
+        response.Should().NotBeNull();
+        response.Status.Should().Be(ResultStatus.NotFound);
+
+        response.Value.Should().BeNull();
+    }
+}
+
+public sealed class SectionController_CreateSection_Should
+{
+    [Fact]
+    public async Task Return_SuccessResult_WhenSectionIsCreated()
+    {
+        // arrange
+        var newSection = new Section() { Id = Guid.NewGuid(), Name = "TestSection" }; 
+        var mockRepository = Substitute.For<IRepository>();
+        mockRepository.CreateSection().Returns(Task.FromResult<Section>(newSection));
+
+        var services = new ServiceCollection();
+        services.AddStockCubeDomainModel();
+        services.AddSingleton(mockRepository);
+
+        // act
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection();
+
+        // assert
+        response.Should().NotBeNull();
+        response.Status.Should().Be(ResultStatus.Ok);
+
+        response.Value.Should().NotBeNull();
+        response.Value.Name.Should().Be(newSection.Name);
+        response.Value.Id.Should().Be(newSection.Id);
+    }
+
+    [Fact]
+    public async Task Return_Error_WhenSectionFailsToCreate()
+    {
+        // arrange
+        var mockRepository = Substitute.For<IRepository>();
+        mockRepository.CreateSection().Returns(Task.FromResult<Section>(null!));
+
+        var services = new ServiceCollection();
+        services.AddStockCubeDomainModel();
+        services.AddSingleton(mockRepository);
+
+        // act
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection();
+
+        // assert
+        response.Should().NotBeNull();
+        response.Status.Should().Be(ResultStatus.Error);
+
+        response.Value.Should().BeNull();
     }
 }
 #pragma warning restore CA1707 // Identifiers should not contain underscores

@@ -26,4 +26,26 @@ internal sealed class SectionService : ISectionService
 
         return Result<Section>.Success(result);
     }
+
+    public async Task<Result> DeleteSectionByIdAsync(Guid Id)
+    {
+        var result = await _repository.DeleteSectionByIdAsync(Id);
+        if (result == false)
+        {
+            return Result.NotFound();
+        }
+
+        return Result.Success();
+    }
+
+    public async Task<Result<Section>> CreateSection()
+    {
+        var result = await _repository.CreateSection();
+        if (result == null)
+        {
+            return Result<Section>.Error();
+        }
+
+        return Result<Section>.Success(result);
+    }
 }
