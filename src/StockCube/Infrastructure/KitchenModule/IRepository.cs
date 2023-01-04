@@ -9,5 +9,5 @@ public interface IRepository
     Task<Section> GetSectionByIdAsync(Guid Id);
 
     Task<bool> DeleteSectionByIdAsync(Guid sectionId);
-    Task<Section> CreateSection();
+    Task<Section> CreateSection(Section section);
 }

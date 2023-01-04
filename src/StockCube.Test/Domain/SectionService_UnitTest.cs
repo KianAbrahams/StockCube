@@ -108,7 +108,7 @@ public sealed class SectionController_DeleteById_Should
         services.AddSingleton(mockRepository);
 
         //act
-        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteSectionByIdAsync(sectionId);
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteAsync(sectionId);
 
         // assert
         response.Should().NotBeNull();
@@ -130,7 +130,7 @@ public sealed class SectionController_DeleteById_Should
         services.AddSingleton(mockRepository);
 
         //act
-        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteSectionByIdAsync(sectionId);
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteAsync(sectionId);
 
         // assert
         response.Should().NotBeNull();
@@ -146,16 +146,17 @@ public sealed class SectionController_CreateSection_Should
     public async Task Return_SuccessResult_WhenSectionIsCreated()
     {
         // arrange
-        var newSection = new Section() { Id = Guid.NewGuid(), Name = "TestSection" }; 
+        var newSection = new Section() { Id = Guid.NewGuid(), Name = "TestSection" };
+
         var mockRepository = Substitute.For<IRepository>();
-        mockRepository.CreateSection().Returns(Task.FromResult<Section>(newSection));
+        mockRepository.CreateSection(newSection).Returns(Task.FromResult<Section>(newSection));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
 
         // act
-        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection();
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection(newSection);
 
         // assert
         response.Should().NotBeNull();
@@ -170,15 +171,17 @@ public sealed class SectionController_CreateSection_Should
     public async Task Return_Error_WhenSectionFailsToCreate()
     {
         // arrange
+        var testSection = new Section() { Id = Guid.NewGuid(), Name = "Section1" };
+
         var mockRepository = Substitute.For<IRepository>();
-        mockRepository.CreateSection().Returns(Task.FromResult<Section>(null!));
+        mockRepository.CreateSection(testSection).Returns(Task.FromResult<Section>(null!));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
 
         // act
-        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection();
+        var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection(testSection);
 
         // assert
         response.Should().NotBeNull();

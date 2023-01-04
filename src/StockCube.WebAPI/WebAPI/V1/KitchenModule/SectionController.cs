@@ -1,7 +1,6 @@
 using Ardalis.Result;
 using Microsoft.AspNetCore.Mvc;
 using StockCube.Domain.KitchenModule;
-using static System.Collections.Specialized.BitVector32;
 
 namespace StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
@@ -25,10 +24,11 @@ public sealed class SectionController : ControllerBase
         }
         return Ok(response.AsEnumerable());
     }
-    [HttpGet("{Id}")] 
-    public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid Id)
+
+    [HttpGet("{Id}")]
+    public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid SectionId)
     {
-        var result = await _sectionService.GetByIdAsync(Id);
+        var result = await _sectionService.GetByIdAsync(SectionId);
         if (result.Status == ResultStatus.NotFound)
         {
             return NotFound();
@@ -39,5 +39,40 @@ public sealed class SectionController : ControllerBase
             Id = result.Value.Id
         };
         return Ok(response);
+    }
+
+    [HttpDelete("{Id}")]
+    public async Task<ActionResult> DeleteAsync(Guid SectionId)
+    {
+        var result = await _sectionService.DeleteAsync(SectionId);
+        if (result.Status == ResultStatus.NotFound)
+        {
+            return NotFound();
+        }
+        return Ok();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<SectionResponseDto>> CreateSectionAsync(CreateSectionRequestDto request)
+    {
+        var section = new Section()
+        {
+            Name = request.Name
+        };
+
+        var result = await _sectionService.CreateSection(section);
+
+        if (result.Status == ResultStatus.Invalid)
+        {
+            result.ValidationErrors.ToList().ForEach((error) => ModelState.AddModelError(error.Identifier, error.ErrorMessage));
+            return UnprocessableEntity(ModelState);
+        }
+
+        var response = new SectionResponseDto()
+        {
+            Name = result.Value.Name,
+            Id = result.Value.Id
+        };
+        return CreatedAtRoute(nameof(GetByIdAsync), new { SectionId = response.Id }, response);
     }
 }
