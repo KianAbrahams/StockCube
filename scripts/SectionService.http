@@ -1,0 +1,61 @@
+### Get a list of all sections ...
+
+GET http://localhost:5100/api/section HTTP/1.1
+content-type: application/json
+
+### Get an existing section with a valid Id ...
+
+GET http://localhost:5100/api/section/646d6b91-e956-4995-a475-595d9f3e7b84 HTTP/1.1
+content-type: application/json
+
+### Get a section with an invalid Id ...
+
+GET http://localhost:5100/api/section/00-e956-4995-a475-595d9f3e7b84 HTTP/1.1
+content-type: application/json
+
+### Create a valid section ...
+
+  POST http://localhost:5100/api/section HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Fridge"
+}
+
+### Attempt to create a section without a name ...
+
+POST http://localhost:5100/api/section HTTP/1.1
+content-type: application/json
+
+{
+    "name": ""
+}
+
+### Attempt to create a section with a name that is too long ...
+
+POST http://localhost:5100/api/section HTTP/1.1
+content-type: application/json
+
+{
+    "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
+
+### Delete a section ...
+
+DELETE http://localhost:5100/api/section/646d6b91-e956-4995-a475-595d9f3e7b84 HTTP/1.1
+content-type: application/json
+
+### Delete a section that doesn't exist ...
+
+DELETE http://localhost:5100/api/section/0cced9e5-61bb-4c70-bd1f-7f9b394f92fc HTTP/1.1
+content-type: application/json
+
+### Delete a section with an invalid Id ...
+
+DELETE http://localhost:5100/api/section/000-61bb-4c70-bd1f-7f9b394f92fc HTTP/1.1
+content-type: application/json
+
+### Delete a section without passing an Id ...
+
+DELETE http://localhost:5100/api/section HTTP/1.1
+content-type: application/json
