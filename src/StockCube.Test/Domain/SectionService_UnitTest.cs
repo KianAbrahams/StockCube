@@ -1,15 +1,10 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-using Ardalis.Result;
-using FluentAssertions.Common;
-using FluentResults;
 using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using StockCube.Domain.KitchenModule;
 using StockCube.Infrastructure.KitchenModule;
-using StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
 namespace StockCube.Test.Domain;
 
@@ -24,12 +19,16 @@ public sealed class SectionService_GetListAsync_Should
             new Section { Name = "Section1", Id = Guid.NewGuid() },
             new Section { Name = "Section2", Id = Guid.NewGuid()}
         };
+
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
         mockRepository.GetSectionListAsync().Returns(Task.FromResult(testSection.AsEnumerable()));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().GetListAsync();
@@ -57,12 +56,16 @@ public sealed class SectionController_GetById_Should
         // arrange
         var sectionId = Guid.NewGuid();
         var testSection = new Section() { Id = sectionId, Name = "Section1" };
+
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
         mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult(testSection));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().GetByIdAsync(sectionId);
@@ -80,12 +83,16 @@ public sealed class SectionController_GetById_Should
     {
         // arrange
         var sectionId = Guid.NewGuid();
+
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
         mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult<Section?>(null!));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().GetByIdAsync(sectionId);
@@ -105,12 +112,17 @@ public sealed class SectionController_DeleteById_Should
     {
         // arrange
         var sectionId = Guid.NewGuid();
+
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
+
         mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(true));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         //act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteAsync(sectionId);
@@ -127,12 +139,16 @@ public sealed class SectionController_DeleteById_Should
     {
         // arrange
         var sectionId = Guid.NewGuid();
+
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
         mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(false));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         //act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().DeleteAsync(sectionId);
@@ -154,11 +170,15 @@ public sealed class SectionController_CreateSection_Should
         var newSection = new Section() { Id = Guid.NewGuid(), Name = "TestSection" };
 
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
+        mockValidator.ValidateAsync(newSection).Returns(Task.FromResult<ValidationResult>(new ValidationResult()));
         mockRepository.CreateSection(newSection).Returns(Task.FromResult<Section>(newSection));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection(newSection);
@@ -179,11 +199,15 @@ public sealed class SectionController_CreateSection_Should
         var testSection = new Section() { Id = Guid.NewGuid(), Name = "Section1" };
 
         var mockRepository = Substitute.For<IRepository>();
+        var mockValidator = Substitute.For<ISectionValidator>();
+
         mockRepository.CreateSection(testSection).Returns(Task.FromResult<Section>(null!));
+        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult<ValidationResult>(new ValidationResult()));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
         services.AddSingleton(mockRepository);
+        services.AddSingleton(mockValidator);
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<ISectionService>().CreateSection(testSection);
