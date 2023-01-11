@@ -25,14 +25,21 @@ public sealed class SectionController : ControllerBase
         return Ok(response.AsEnumerable());
     }
 
-    [HttpGet("{Id}")]
+    [HttpGet("{Id}", Name = "GetById")]
     public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid SectionId)
     {
         var result = await _sectionService.GetByIdAsync(SectionId);
+
+        if (result.Status == ResultStatus.Invalid)
+        {
+            result.ValidationErrors.ToList().ForEach((error) => ModelState.AddModelError(error.Identifier, error.ErrorMessage));
+            return BadRequest(ModelState);
+        }
         if (result.Status == ResultStatus.NotFound)
         {
             return NotFound();
         }
+
         var response = new SectionResponseDto()
         {
             Name = result.Value.Name,
@@ -45,6 +52,12 @@ public sealed class SectionController : ControllerBase
     public async Task<ActionResult> DeleteAsync(Guid SectionId)
     {
         var result = await _sectionService.DeleteAsync(SectionId);
+
+        if (result.Status == ResultStatus.Invalid)
+        {
+            result.ValidationErrors.ToList().ForEach((error) => ModelState.AddModelError(error.Identifier, error.ErrorMessage));
+            return BadRequest(ModelState);
+        }
         if (result.Status == ResultStatus.NotFound)
         {
             return NotFound();
@@ -73,6 +86,6 @@ public sealed class SectionController : ControllerBase
             Name = result.Value.Name,
             Id = result.Value.Id
         };
-        return CreatedAtRoute(nameof(GetByIdAsync), new { SectionId = response.Id }, response);
+        return CreatedAtRoute("GetById", new { SectionId = response.Id.ToString() }, response);
     }
 }

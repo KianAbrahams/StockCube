@@ -7,6 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddStockCubeDomainModel();
+builder.Services.AddStockCubeInfrastructure();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

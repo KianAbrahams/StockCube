@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StockCube.Infrastructure\StockCube.Infrastructure.csproj" />
     <ProjectReference Include="..\StockCube.WebAPI\StockCube.WebAPI.csproj" />
   </ItemGroup>
 

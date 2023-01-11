@@ -2,7 +2,7 @@ using StockCube.Domain.KitchenModule;
 
 namespace StockCube.Infrastructure.KitchenModule;
 
-public interface IRepository
+public interface IKitchenRepository
 {
     Task<IEnumerable<Section>> GetSectionListAsync();
 

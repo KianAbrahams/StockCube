@@ -5,10 +5,10 @@ namespace StockCube.Domain.KitchenModule;
 
 internal sealed class SectionService : ISectionService
 {
-    private readonly IRepository _repository;
+    private readonly IKitchenRepository _repository;
     private readonly ISectionValidator _validator;
 
-    public SectionService(IRepository repository, ISectionValidator validator)
+    public SectionService(IKitchenRepository repository, ISectionValidator validator)
     {
         _repository = repository;
         _validator = validator;
@@ -23,6 +23,14 @@ internal sealed class SectionService : ISectionService
 
     public async Task<Result<Section>> GetByIdAsync(Guid Id)
     {
+        if (Id == Guid.Empty)
+        {
+            // TODO: Convert Id to valid type and add validator to do this ...
+            return Result<Section>.Invalid(new List<ValidationError>()
+            {
+                new ValidationError() { Identifier = "Id", ErrorMessage = "Invalid Id"}
+            });
+        }
         var result = await _repository.GetSectionByIdAsync(Id);
         if(result == null)
         {
@@ -34,6 +42,14 @@ internal sealed class SectionService : ISectionService
 
     public async Task<Result> DeleteAsync(Guid Id)
     {
+        if (Id == Guid.Empty)
+        {
+            // TODO: Convert Id to valid type and add validator to do this ...
+            return Result.Invalid(new List<ValidationError>()
+            {
+                new ValidationError() { Identifier = "Id", ErrorMessage = "Invalid Id"}
+            });
+        }
         var result = await _repository.DeleteSectionByIdAsync(Id);
         if (result == false)
         {

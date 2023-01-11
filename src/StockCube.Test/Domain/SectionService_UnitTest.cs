@@ -20,7 +20,7 @@ public sealed class SectionService_GetListAsync_Should
             new Section { Name = "Section2", Id = Guid.NewGuid()}
         };
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.GetSectionListAsync().Returns(Task.FromResult(testSection.AsEnumerable()));
@@ -57,7 +57,7 @@ public sealed class SectionController_GetById_Should
         var sectionId = Guid.NewGuid();
         var testSection = new Section() { Id = sectionId, Name = "Section1" };
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult(testSection));
@@ -84,7 +84,7 @@ public sealed class SectionController_GetById_Should
         // arrange
         var sectionId = Guid.NewGuid();
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult<Section?>(null!));
@@ -113,7 +113,7 @@ public sealed class SectionController_DeleteById_Should
         // arrange
         var sectionId = Guid.NewGuid();
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
 
@@ -140,7 +140,7 @@ public sealed class SectionController_DeleteById_Should
         // arrange
         var sectionId = Guid.NewGuid();
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(false));
@@ -169,7 +169,7 @@ public sealed class SectionController_CreateSection_Should
         // arrange
         var newSection = new Section() { Id = Guid.NewGuid(), Name = "TestSection" };
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockValidator.ValidateAsync(newSection).Returns(Task.FromResult<ValidationResult>(new ValidationResult()));
@@ -198,7 +198,7 @@ public sealed class SectionController_CreateSection_Should
         // arrange
         var testSection = new Section() { Id = Guid.NewGuid(), Name = "Section1" };
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.CreateSection(testSection).Returns(Task.FromResult<Section>(null!));
@@ -233,7 +233,7 @@ public sealed class SectionController_CreateSection_Should
             }
         };
 
-        var mockRepository = Substitute.For<IRepository>();
+        var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockValidator.ValidateAsync(testSection).Returns(Task.FromResult<ValidationResult>(validationResult));
