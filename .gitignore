@@ -370,3 +370,4 @@ MigrationBackup/
 /src/global.json
 /ux
 *.env
+/src/StockCube.BlazorServer/wwwroot/css/site.css

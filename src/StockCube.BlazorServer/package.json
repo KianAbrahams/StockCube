@@ -1,0 +1,18 @@
+{
+  "name": "stockcube",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Kian Abrahams",
+  "license": "MIT",
+  "description": "",
+  "scripts": {
+    "release": "npx tailwindcss -i ./site.css -o ./wwwroot/css/site.min.css --minify",
+    "build": "npx tailwindcss -i ./site.css -o ./wwwroot/css/site.css",
+    "start": "npx tailwindcss -i ./site.css -o ./wwwroot/css/site.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}
