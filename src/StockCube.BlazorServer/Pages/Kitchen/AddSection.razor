@@ -1,0 +1,9 @@
+@using StockCube.UI.Kitchen;
+@using StockCube.UI;
+@inject IAddSectionViewModel vm;
+<h3>AddSection</h3>
+
+<input type="text" @bind="vm.Name"/>
+
+<button type="submit" @onclick="() => vm.SaveCommand.ExecuteAsync(null)">Save</button>
+

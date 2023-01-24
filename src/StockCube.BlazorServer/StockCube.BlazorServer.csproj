@@ -10,6 +10,12 @@
     <Folder Include="wwwroot\css\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StockCube.Domain\StockCube.Domain.csproj" />
+    <ProjectReference Include="..\StockCube.Infrastructure\StockCube.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockCube.UI\StockCube.UI.csproj" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="npm install" />
     <Exec Command="npm run build" />

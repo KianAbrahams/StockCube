@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using StockCube.BlazorServer.Data;
+using StockCube.UI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddStockCubeDomainModel();
+builder.Services.AddStockCubeInfrastructure();
+builder.Services.AddStockCubeUI();
 
 var app = builder.Build();
 
