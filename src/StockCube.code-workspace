@@ -113,7 +113,10 @@
             "visualstudioexptteam.vscodeintellicode",
             "ms-azuretools.vscode-docker",
             "tomoki1207.pdf",
-            "systemticks.c4-dsl-extension"
+            "systemticks.c4-dsl-extension",
+            "vstirbu.vscode-mermaid-preview",
+            "bpruitt-goddard.mermaid-markdown-syntax-highlighting",
+            "bierner.markdown-mermaid"
         ],
         "unwantedRecommendations": [
             "ms-azuretools.vscode-docker",

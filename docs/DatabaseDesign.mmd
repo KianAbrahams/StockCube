@@ -1,0 +1,63 @@
+erDiagram
+    Kitchen_Section {
+        UNIQUEIDENTIFER SectionId
+        NVARCHAR_30 Name
+    }
+    Kitchen_SectionFoodItem {
+        UNIQUEIDENTIFER SectionFoodItemId
+        UNIQUEIDENTIFER SectionId
+        UNIQUEIDENTIFER FoodItemId
+        DATE ExpiryDate
+    }
+
+    Unit {
+        UNIQUEIDENTIFER UnitId
+        NVARCHAR_30 Name
+    }
+
+    Cooking_Recipe {
+        UNIQUEIDENTIFER RecipeId
+        NVARCHAR_30 Name
+    }
+    Cooking_MealPlan {
+        UNIQUEIDENTIFER MealPlanId
+        NVARCHAR_30 Name
+        DATE StartDate
+        DATE EndDate
+    }
+    Cooking_MealPlanRecipe {
+        UNIQUEIDENTIFER MealPlanRecipeId
+        UNIQUEIDENTIFER RecipeId
+        UNIQUEIDENTIFER MealPlanId
+    }
+    Cooking_RecipeIngredient {
+        UNIQUEIDENTIFER RecipeIngredientId
+        UNIQUEIDENTIFER RecipeId
+        UNIQUEIDENTIFER IngredientId
+    }
+    Cooking_Ingredient {
+        UNIQUEIDENTIFER IngredientId
+        UNIQUEIDENTIFER FoodItemId
+        UNIQUEIDENTIFER UnitId
+        FLOAT Size
+        NVARCHAR_255 Description
+        FLOAT Quantity
+    }
+// Online shopping - Orders,delievery times and subs
+    Shopping_Shoppinglist {
+        UNIQUEIDENTIFER ShoppingListId
+        NVARCHAR_255 Description
+        DATE ShoppingDate
+    }
+    Shopping_ShoppingListFoodItem {
+        UNIQUEIDENTIFER ShoppingListFoodItemId
+        UNIQUEIDENTIFER ShoppingListId
+        UNIQUEIDENTIFER FoodItemId
+    }
+    Shopping_FoodItem {
+        UNIQUEIDENTIFER FoodItemId
+        UNIQUEIDENTIFER UnitId
+        FLOAT Size
+        NVARCHAR_255 Description
+        FLOAT Quantity
+    }
