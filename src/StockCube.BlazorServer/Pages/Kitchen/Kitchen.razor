@@ -2,8 +2,103 @@
 @*@inject vm = IKitchenViewModel*@
 
 <PageTitle>Kitchen</PageTitle>
+<MudStack>
+  <MudStack Spacing="1" Row="true">
+    <MudIcon Icon="@Icons.Material.Outlined.Kitchen" Title="Kitchen" />
+    <MudText class="mb-2" Typo="Typo.h6">Kitchen</MudText>
+  </MudStack>
+  <MudText class="mb-2" Typo="Typo.subtitle1">WIP</MudText>
 
-<div class="flex-auto py-5 px-5">
+  <!--Table header-->
+  <MudStack Spacing="1">
+    <MudPaper Class="d-flex align-end flex-grow-1 gap-4" Elevation="0">
+      <MudText Align="Align.Center" class="object-bottom" Typo="Typo.h6">Section</MudText>
+      <MudSelect Dense="true" T="string" Label="Coffee" Variant="Variant.Outlined">
+          <MudSelectItem Value="@("Tyrannosaur")" />
+          <MudSelectItem Value="@("Triceratops")" />
+          <MudSelectItem Value="@("Henon Rex")" />
+      </MudSelect>
+            <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info"></MudButton>
+    </MudPaper>
+  </MudStack>
+
+  <!--Main Table-->
+  <MudTable Items="@_foodItems" Striped="true" Dense="true">
+
+    <HeaderContent>
+      <MudTh>Name</MudTh>
+      <MudTh>Amount</MudTh>
+      <MudTh>Units</MudTh>
+          <MudTh>Quantity</MudTh>
+      <MudTh>Expiry Date</MudTh>
+      <MudTh>&nbsp;</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+      <MudTd DataLabel="Name">@context.Name</MudTd>
+      <MudTd DataLabel="Amount">@context.Amount</MudTd>
+      <MudTd DataLabel="Units">@context.Units</MudTd>
+      <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
+      <MudTd DataLabel="Expiry Date">@context.ExpiryDate</MudTd>
+      <MudTd>
+        <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info">Edit</MudButton>
+        <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
+      </MudTd>
+    </RowTemplate>
+    <FooterContent>
+      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Tertiary">Refresh</MudButton>
+      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info">Add</MudButton>
+    </FooterContent>
+  </MudTable>
+</MudStack>
+
+@code {
+    public class FoodItemViewModel
+    {
+        public string Name { get; set; }
+        public double Amount { get; set; }
+        public string Units { get; set; }
+        public string Quantity { get; set; }
+        public string ExpiryDate { get; set; }
+    }
+    public List<FoodItemViewModel> _foodItems = new()
+    {
+      new ()
+      {
+        Name="Chicken",
+        Amount=100,
+        Units="g",
+        Quantity="1x",
+        ExpiryDate="03-feb-2023"
+      },
+      new ()
+      {
+        Name="Maris Piper Potatoes",
+        Amount=2.5,
+        Units="kg",
+        Quantity="1x",
+        ExpiryDate="19-feb-2023"
+      },
+      new ()
+      {
+        Name="Semi Skimmed Milk",
+        Amount=4,
+        Units="pints",
+        Quantity="3x",
+        ExpiryDate="10-feb-2023"
+      },
+      new ()
+      {
+        Name="Heniz Baked Beans",
+        Amount=415,
+        Units="g",
+        Quantity="16x",
+        ExpiryDate="03-feb-2024"
+      }
+    };
+}
+
+
+@*<div class="flex-auto py-5 px-5">
     <div>
         <div class="dropdown relative">
             <button class="
@@ -79,6 +174,7 @@
       Delete
       </button>
     </div>
-  </div>
+  </div>*@
 
-  <AddSection></AddSection>
+@*  <AddSection></AddSection>*@
+

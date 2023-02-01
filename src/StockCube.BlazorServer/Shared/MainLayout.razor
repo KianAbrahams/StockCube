@@ -2,37 +2,66 @@
 
 <PageTitle>Stock Cube</PageTitle>
 
-<nav class="flex items-center justify-between flex-wrap bg-slate-900 p-6">
-  <div class="flex items-center flex-shrink-0 text-white mr-6">
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_theme"/>
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-     <span class="font-semibold text-xl tracking-tight"> <i class="fa fa-cubes"></i> Stock Cube</span>
-  </div>
-  <div class="block lg:hidden">
-    <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
-      <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
-    </button>
-  </div>
-  <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-    <div class="text-sm lg:flex-grow">
-      <a href="kitchen" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-        Kitchen
-      </a>
-      <a href="recipes" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">
-        Recipes
-      </a>
-      <a href="shopping" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white">
-        Shopping
-      </a>
-    </div>
-    <div>
-      <a href="/settings" class="inline-block text-xl px-3 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">
-        <i class="fa fa-cogs" aria-hidden="true"></i>
-      </a>
-    </div>
-  </div>
-</nav>
-<main>
-  <article>
-    @Body
-  </article>
-</main>
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => this.OnDrawerToggleClick())" />
+        <MudText Typo="Typo.h5">Stock Cube</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@_modeIcon" Color="Color.Inherit" OnClick="@((e) => OnIsDarkModeChanged(!_isDarkMode))" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen" Width="140px" Variant="@DrawerVariant.Mini" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MudNavMenu Dense="false">
+            <MudNavLink Href="/kitchen" Icon="@Icons.Material.Outlined.Kitchen">Kitchen</MudNavLink>
+            <MudNavLink Href="/recipes" Icon="@Icons.Material.Outlined.MenuBook">Recipes</MudNavLink>
+            <MudNavLink Href="/shopping" Icon="@Icons.Material.Outlined.ShoppingCart">Shopping</MudNavLink>
+        </MudNavMenu> 
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer class="pa-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    // TODO: move to VM
+    private Size _avatarSize = Size.Small;
+    private string _modeIcon = Icons.Material.Outlined.WbSunny;
+    private Color _appBarItemColor = Color.Primary;
+    private MudTheme _theme = new(); // TODO: Save theme preferences https://www.thomasclaudiushuber.com/2021/04/19/store-data-of-your-blazor-app-in-the-local-storage-and-in-the-session-storage/
+    private MudThemeProvider _mudThemeProvider = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            OnIsDarkModeChanged(isDarkMode);
+            StateHasChanged();
+        }
+    }
+
+    private bool _drawerOpen = true;
+    private void OnDrawerToggleClick() => _drawerOpen = !_drawerOpen;
+
+    private bool _isDarkMode;
+    private void OnIsDarkModeChanged(bool isDarkMode)
+    {
+        if (isDarkMode)
+        {
+            _appBarItemColor = Color.Primary;
+            _modeIcon = Icons.Material.Outlined.WbSunny;
+        }
+        else
+        {
+            _appBarItemColor = Color.Tertiary;
+            _modeIcon = Icons.Material.Outlined.Nightlight;
+
+        }
+        _isDarkMode = isDarkMode;
+    }
+}
