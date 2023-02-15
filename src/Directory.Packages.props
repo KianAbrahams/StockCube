@@ -1,0 +1,38 @@
+<Project>
+  <PropertyGroup>
+    <!--See: https://devblogs.microsoft.com/nuget/introducing-central-package-management/-->
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--Shared / Common-->
+    <PackageVersion Include="FluentValidation" Version="11.4.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <!--StockCube-->
+    <PackageVersion Include="Ardalis.Result" Version="4.1.0" />
+    <PackageVersion Include="Ardalis.Result.FluentValidation" Version="4.1.0" />
+    <!--StockCube.BlazorServer-->
+    <PackageVersion Include="MudBlazor" Version="6.1.8" />
+    <!--StockCube.Domain-->
+    <!--StockCube.Infrastructure-->
+    <!--StockCube.Test-->
+    <PackageVersion Include="FluentAssertions" Version="6.8.0" />
+    <PackageVersion Include="FluentResults.Extensions.FluentAssertions" Version="2.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
+    <PackageVersion Include="NSubstitute" Version="4.4.0" />
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <PackageVersion Include="coverlet.collector" Version="3.2.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageVersion>
+    <!--StockCube.UI-->
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <!--StockCube.WebAPI-->
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+</Project>

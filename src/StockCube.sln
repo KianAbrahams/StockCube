@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C83BCB91-D
 		..\docs\Kitchen stock app.pdf = ..\docs\Kitchen stock app.pdf
 	EndProjectSection
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StockCube.Database", "StockCube.Database\StockCube.Database.sqlproj", "{C7505A29-EC3A-4D65-A23E-8540FBA8E512}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,12 @@ Global
 		{BE8C3E2E-E14B-453A-9132-EA516EFA1112}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE8C3E2E-E14B-453A-9132-EA516EFA1112}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE8C3E2E-E14B-453A-9132-EA516EFA1112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7505A29-EC3A-4D65-A23E-8540FBA8E512}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
