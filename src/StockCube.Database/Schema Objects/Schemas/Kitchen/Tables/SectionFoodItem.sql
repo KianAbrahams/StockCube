@@ -1,0 +1,7 @@
+CREATE TABLE Kitchen.SectionFoodItem (
+  SectionFoodItemId UNIQUEIDENTIFIER NOT NULL,
+  SectionId UNIQUEIDENTIFIER NOT NULL,
+  FoodItemId UNIQUEIDENTIFIER NOT NULL,
+  ExpiryDate DATE,
+  PRIMARY KEY (SectionFoodItemId)
+)

@@ -1,0 +1,2 @@
+CREATE TYPE dbo.EntityDescription
+	FROM NVARCHAR(255) NOT NULL
