@@ -371,3 +371,4 @@ MigrationBackup/
 /ux
 *.env
 /src/StockCube.BlazorServer/wwwroot/css/site.css
+/src/StockCube.Database/MySQL/StockCube.mwb
