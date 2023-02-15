@@ -1,0 +1,114 @@
+Table Kitchen.Section {
+  SectionId UNIQUEIDENTIFER
+  Name nvarchar(30)
+  Indexes {
+    (SectionId) [pk]
+  }
+}
+Ref: Kitchen.SectionFoodItem.SectionId > Kitchen.Section.SectionId
+
+Table Kitchen.SectionFoodItem {
+  SectionFoodItemId UNIQUEIDENTIFER
+  SectionId UNIQUEIDENTIFER
+  FoodItemId UNIQUEIDENTIFER
+  ExpiryDate DATE
+  Indexes {
+    (SectionFoodItemId) [pk]
+  }
+}
+
+Table Unit {
+  UnitId UNIQUEIDENTIFER
+  Name NVARCHAR(30)
+  Indexes {
+    (UnitId) [pk]
+  }
+}
+Ref: Cooking.Ingredient.UnitId > Unit.UnitId
+Ref: Shopping.FoodItem.UnitId > Unit.UnitId
+
+Table Cooking.Recipe {
+  RecipeId UNIQUEIDENTIFER
+  Name NVARCHAR_30
+  Indexes {
+    (RecipeId) [pk]
+  }
+}
+Ref: Cooking.MealPlanRecipe.RecipeId > Cooking.Recipe.RecipeId
+Ref: Cooking.RecipeIngredient.RecipeId > Cooking.Recipe.RecipeId
+
+Table Cooking.MealPlan {
+  MealPlanId UNIQUEIDENTIFER
+  Name NVARCHAR(30)
+  StartDate DATE
+  EndDate DATE
+  Indexes {
+    (MealPlanId) [pk]
+  }
+}
+Ref: Cooking.MealPlanRecipe.MealPlanRecipeId > Cooking.MealPlan.MealPlanId
+
+Table Cooking.MealPlanRecipe {
+  MealPlanRecipeId UNIQUEIDENTIFER
+  RecipeId UNIQUEIDENTIFER
+  MealPlanId UNIQUEIDENTIFER
+  Indexes {
+    (MealPlanRecipeId) [pk]
+  }
+}
+
+Table Cooking.RecipeIngredient {
+  RecipeIngredientId UNIQUEIDENTIFER
+  RecipeId UNIQUEIDENTIFER
+  IngredientId UNIQUEIDENTIFER
+  Indexes {
+    (RecipeIngredientId) [pk]
+  }
+}
+
+Table Cooking.Ingredient {
+  IngredientId UNIQUEIDENTIFER
+  FoodItemId UNIQUEIDENTIFER
+  UnitId UNIQUEIDENTIFER
+  Size FLOAT
+  Description NVARCHAR(255)
+  Quantity FLOAT
+  Indexes {
+    (IngredientId) [pk]
+  }
+}
+Ref: Cooking.RecipeIngredient.IngredientId > Cooking.Ingredient.IngredientId
+
+// Online shopping - Orders,delievery times and subs
+Table Shopping.Shoppinglist {
+  ShoppingListId UNIQUEIDENTIFER
+  Description NVARCHAR(255)
+  ShoppingDate DATE
+  Indexes {
+    (ShoppingListId) [pk]
+  }
+}
+Ref: Shopping.ShoppingListFoodItem.ShoppingListId > Shopping.Shoppinglist.ShoppingListId
+
+
+Table Shopping.ShoppingListFoodItem {
+  ShoppingListFoodItemId UNIQUEIDENTIFER
+  ShoppingListId UNIQUEIDENTIFER
+  FoodItemId UNIQUEIDENTIFER
+  Indexes {
+    (ShoppingListFoodItemId) [pk]
+  }
+}
+
+Table Shopping.FoodItem {
+  FoodItemId UNIQUEIDENTIFER
+  UnitId UNIQUEIDENTIFER
+  Size FLOAT
+  Description NVARCHAR(255)
+  Quantity FLOAT
+  Indexes {
+    (FoodItemId) [pk]
+  }
+}
+Ref: Kitchen.SectionFoodItem.FoodItemId > Shopping.FoodItem.FoodItemId
+Ref: Shopping.ShoppingListFoodItem.FoodItemId > Shopping.FoodItem.FoodItemId
