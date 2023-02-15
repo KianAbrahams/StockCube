@@ -24,6 +24,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C83BCB91-D
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "StockCube.Database", "StockCube.Database\StockCube.Database.sqlproj", "{C7505A29-EC3A-4D65-A23E-8540FBA8E512}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{699D4820-FB6E-4734-AEC5-4832F9662CD5}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

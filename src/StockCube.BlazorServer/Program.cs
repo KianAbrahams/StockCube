@@ -11,7 +11,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
 builder.Services.AddStockCubeDomainModel();
-builder.Services.AddStockCubeInfrastructure();
+builder.Services.AddStockCubeInfrastructure(builder.Configuration);
 builder.Services.AddStockCubeUI();
 
 var app = builder.Build();

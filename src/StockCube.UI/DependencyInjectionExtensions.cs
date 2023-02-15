@@ -5,8 +5,9 @@ namespace StockCube.UI;
 
 public static class DependencyInjectionExtensions
 {
-    public static void AddStockCubeUI(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddStockCubeUI(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IAddSectionViewModel, AddSectionViewModel>();
+        return serviceCollection;
     }
 }

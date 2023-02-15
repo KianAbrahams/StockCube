@@ -4,9 +4,10 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class DependencyInjectionExtensions
 {
-    public static void AddStockCubeDomainModel(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddStockCubeDomainModel(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<ISectionService, SectionService>();
         serviceCollection.AddTransient<ISectionValidator, SectionValidator>();
+        return serviceCollection;
     }
 }

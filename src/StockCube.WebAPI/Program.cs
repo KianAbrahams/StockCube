@@ -7,8 +7,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddStockCubeDomainModel();
-builder.Services.AddStockCubeInfrastructure();
+builder.Services
+    .AddStockCubeDomainModel()
+    .AddStockCubeInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

@@ -4,8 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
+    <UserSecretsId>1fae7c8d-5bbd-4840-a398-957f3b9409a1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
