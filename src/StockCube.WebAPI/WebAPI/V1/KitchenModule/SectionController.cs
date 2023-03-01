@@ -25,7 +25,7 @@ public sealed class SectionController : ControllerBase
         return Ok(response.AsEnumerable());
     }
 
-    [HttpGet("{Id}", Name = "GetById")]
+    [HttpGet("{SectionId}", Name = "GetById")]
     public async Task<ActionResult<SectionResponseDto>> GetByIdAsync(Guid SectionId)
     {
         var result = await _sectionService.GetByIdAsync(SectionId);
@@ -48,7 +48,7 @@ public sealed class SectionController : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete("{Id}")]
+    [HttpDelete("{SectionId}")]
     public async Task<ActionResult> DeleteAsync(Guid SectionId)
     {
         var result = await _sectionService.DeleteAsync(SectionId);

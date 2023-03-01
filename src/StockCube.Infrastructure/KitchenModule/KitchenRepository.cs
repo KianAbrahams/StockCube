@@ -1,4 +1,5 @@
-using MySqlConnector;
+using System.Data;
+using Dapper;
 using StockCube.Domain.KitchenModule;
 using StockCube.Infrastructure.MySQL;
 
@@ -13,44 +14,38 @@ internal class KitchenRepository : IKitchenRepository
 
     public async Task<Section> CreateSection(Section section)
     {
-        using var mySqlConnection = _mySqlConnectionManager.CreateConnection();
-        await mySqlConnection.OpenAsync();
-        if (mySqlConnection.State != System.Data.ConnectionState.Open) { throw new Exception("Connection Failed"); }
-        //var count = connection.Execute(@"
-        //  set nocount on
-        //  create table #t(i int)
-        //  set nocount off
-        //  insert #t
-        //  select @a a union all select @b
-        //  set nocount on
-        //  drop table #t", new { a = 1, b = 2 });
-        //Assert.Equal(2, count);
-
-
-        //var users = connection.Query<string>("select user_name from users where user_id = @userId", new { userId });
-        //if (users.FirstOrDefault() is string userName)
-        //    return Results.Ok(new { Name = userName });
-        //else
-        //    return Results.NotFound();
-        await mySqlConnection.CloseAsync();
-        return new Section() { Name = section.Name, Id = Guid.NewGuid() };
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+        
+        section.Id= Guid.NewGuid();
+        await connection.ExecuteAsync(Constants.Db.Kitchen.USP_CreateSection, section, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return section;
     }
 
-    public Task<bool> DeleteSectionByIdAsync(Guid sectionId)
-        => throw new NotImplementedException();
-
-    public Task<Section> GetSectionByIdAsync(Guid Id)
-        => throw new NotImplementedException();
-
-    public Task<IEnumerable<Section>> GetSectionListAsync()
+    public async Task<bool> DeleteSectionByIdAsync(Guid sectionId)
     {
-        var sectionList = new List<Section>()
-        {
-            new Section() { Id = Guid.NewGuid(), Name = "Cupboard under the sink" },
-            new Section() { Id = Guid.NewGuid(), Name = "Cupboard by the fridge"},
-            new Section() { Id = Guid.NewGuid(), Name = "Fridge"},
-            new Section() { Id = Guid.NewGuid(), Name = "Freezer"}
-        };
-        return Task.FromResult(sectionList.AsEnumerable());
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+
+        var result = await connection.QuerySingleAsync(Constants.Db.Kitchen.USP_DeleteSectionById, new { Id = sectionId.ToString() }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return result.deleted;
+    }
+
+    public async Task<Section> GetSectionByIdAsync(Guid sectionId)
+    {
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+
+        var result = await connection.QuerySingleAsync<Section>(Constants.Db.Kitchen.USP_GetSectionById, new { Id = sectionId.ToString() }, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return result;
+    }
+
+    public async Task<IEnumerable<Section>> GetSectionListAsync()
+    {
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+
+        var result = await connection.QueryAsync<Section>(Constants.Db.Kitchen.USP_GetSectionList, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return result;
     }
 }

@@ -1,3 +1,4 @@
+using System.Data;
 using Ardalis.GuardClauses;
 using MySqlConnector;
 
@@ -32,6 +33,15 @@ internal abstract class MySqlConnectionManager
     private readonly string _connectionString = string.Empty;
 
     public MySqlConnection CreateConnection() => new MySqlConnection(_connectionString);
+
+    public async Task<MySqlConnection> CreateConnectionAsync()
+    {
+        var connection = new MySqlConnection(_connectionString);
+        await connection.OpenAsync().ConfigureAwait(false);
+        if (connection.State != ConnectionState.Open)
+            throw new Exception("Connection Failed");
+        return connection;
+    }
 
     public MySqlConnectionManager(string? connectionString)
         => _connectionString = Guard.Against.NullOrEmpty(connectionString);
