@@ -15,6 +15,10 @@ internal class Constants
         internal class Cooking
         {
             public const string schemaName = "cooking";
+            public const string USP_GetRecipeList = "kitchen.USP_GetSectionList";
+            public const string USP_GetRecipeById = "kitchen.USP_GetSectionById";
+            public const string USP_DeleteRecipeById = "kitchen.USP_DeleteSectionById";
+            public const string USP_CreateRecipe = "kitchen.USP_CreateSection";
         }
         internal class dbo
         {

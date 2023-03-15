@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using StockCube.Infrastructure.CookingModule;
 using StockCube.Infrastructure.KitchenModule;
 using StockCube.Infrastructure.MySQL;
 
@@ -10,7 +11,12 @@ public static class DependencyInjectionExtensions
     {
         serviceCollection.AddConnectionManagers(configuration);
 
+        // Cooking Module
+        serviceCollection.AddTransient<IRecipeRepository, RecipeRepository>();
+
+        // Kitchen Module
         serviceCollection.AddTransient<IKitchenRepository, KitchenRepository>();
+
         return serviceCollection;
     }
 
