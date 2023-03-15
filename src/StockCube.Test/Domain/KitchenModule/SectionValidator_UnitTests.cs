@@ -3,7 +3,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using StockCube.Domain.KitchenModule;
 
-namespace StockCube.Test.Domain;
+namespace StockCube.Test.Domain.KitchenModule;
 
 public sealed class SectionValidator_ValidateAsync_Should
 {

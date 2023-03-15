@@ -6,7 +6,7 @@ using NSubstitute;
 using StockCube.Domain.KitchenModule;
 using StockCube.Infrastructure.KitchenModule;
 
-namespace StockCube.Test.Domain;
+namespace StockCube.Test.Domain.KitchenModule;
 
 public sealed class SectionService_GetListAsync_Should
 {
@@ -101,7 +101,7 @@ public sealed class SectionController_GetById_Should
         response.Should().NotBeNull();
         response.Status.Should().Be(ResultStatus.NotFound);
 
-        response.Value.Should().BeNull();  
+        response.Value.Should().BeNull();
     }
 }
 
@@ -117,7 +117,7 @@ public sealed class SectionController_DeleteById_Should
         var mockValidator = Substitute.For<ISectionValidator>();
 
 
-        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(true));
+        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult(true));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
@@ -131,7 +131,7 @@ public sealed class SectionController_DeleteById_Should
         response.Should().NotBeNull();
         response.Status.Should().Be(ResultStatus.Ok);
 
-        response.Value.Should().BeNull();   
+        response.Value.Should().BeNull();
     }
 
     [Fact]
@@ -143,7 +143,7 @@ public sealed class SectionController_DeleteById_Should
         var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
-        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult<bool>(false));
+        mockRepository.DeleteSectionByIdAsync(sectionId).Returns(Task.FromResult(false));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
@@ -172,8 +172,8 @@ public sealed class SectionController_CreateSection_Should
         var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
-        mockValidator.ValidateAsync(newSection).Returns(Task.FromResult<ValidationResult>(new ValidationResult()));
-        mockRepository.CreateSection(newSection).Returns(Task.FromResult<Section>(newSection));
+        mockValidator.ValidateAsync(newSection).Returns(Task.FromResult(new ValidationResult()));
+        mockRepository.CreateSection(newSection).Returns(Task.FromResult(newSection));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
@@ -202,7 +202,7 @@ public sealed class SectionController_CreateSection_Should
         var mockValidator = Substitute.For<ISectionValidator>();
 
         mockRepository.CreateSection(testSection).Returns(Task.FromResult<Section>(null!));
-        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult<ValidationResult>(new ValidationResult()));
+        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult(new ValidationResult()));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
@@ -236,7 +236,7 @@ public sealed class SectionController_CreateSection_Should
         var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
-        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult<ValidationResult>(validationResult));
+        mockValidator.ValidateAsync(testSection).Returns(Task.FromResult(validationResult));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
