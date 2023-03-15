@@ -1,6 +1,10 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 using System.Configuration;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 
 namespace StockCube;
 
@@ -11,9 +15,12 @@ public class ServiceCollection_Should
     public async Task BeAbleToInstantiateAllRegiesteredTypes()
     {
         // Arrange
+        var builder = WebApplication.CreateBuilder();
+        // Adds user secrets to the builder config, perhaps there is a better way of doing this.
+        builder.Configuration.AddEnvironmentVariables().AddUserSecrets(Assembly.GetExecutingAssembly());
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
-        services.AddStockCubeInfrastructure();
+        services.AddStockCubeInfrastructure(builder.Configuration);
 
         var serviceProvider = services.BuildServiceProvider();
 
