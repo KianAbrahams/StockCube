@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using StockCube.Domain.CookingModule;
+using StockCube.WebAPI;
 using StockCube.WebAPI.WebAPI.V1.RecipeModule;
 
 namespace StockCube.Test.WebAPI.V1.CookingModule;
@@ -27,6 +28,7 @@ public sealed class RecipeController_Get_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().GetListAsync();
@@ -67,6 +69,7 @@ public sealed class RecipeController_GetById_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().GetByIdAsync(recipeId);
@@ -105,6 +108,7 @@ public sealed class RecipeController_GetById_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().GetByIdAsync(recipeId);
@@ -134,6 +138,7 @@ public sealed class RecipeController_GetById_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().GetByIdAsync(recipeId);
@@ -157,6 +162,7 @@ public sealed class RecipeController_DeleteById_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().DeleteAsync(recipeId);
@@ -177,6 +183,7 @@ public sealed class RecipeController_DeleteById_Should
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().DeleteAsync(recipeId);
@@ -197,11 +204,12 @@ public sealed class RecipeController_Create_Should
         var testRecipe = new Recipe() { Id = Guid.Empty, Name = testRecipeRequest.Name };
 
         var mockRecipeService = Substitute.For<IRecipeService>();
-        mockRecipeService.CreateRecipe(testRecipe).Returns(Task.FromResult(Result<Recipe>.Success(testRecipe)));
+        mockRecipeService.CreateRecipeAsync(Arg.Any<Recipe>()).Returns(Task.FromResult(Result<Recipe>.Success(testRecipe)));
 
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().CreateRecipeAsync(testRecipeRequest);
@@ -225,18 +233,18 @@ public sealed class RecipeController_Create_Should
     {
         // arrange
         var testRecipeRequest = new CreateRecipeRequestDto() { Name = "" };
-        var testRecipe = new Recipe() { Id = Guid.Empty, Name = testRecipeRequest.Name };
         var validationErrors = new List<ValidationError>()
         {
             new ValidationError() { Identifier = "Name", ErrorMessage = "Should not be empty" }
         };
 
         var mockRecipeService = Substitute.For<IRecipeService>();
-        mockRecipeService.CreateRecipe(testRecipe).Returns(Task.FromResult(Result<Recipe>.Invalid(validationErrors)));
+        mockRecipeService.CreateRecipeAsync(Arg.Any<Recipe>()).Returns(Task.FromResult(Result<Recipe>.Invalid(validationErrors)));
 
         var services = new ServiceCollection();
         services.AddTransient<RecipeController>();
         services.AddSingleton(mockRecipeService);
+        services.AddAutoMapper(typeof(MappingProfile));
 
         // act
         var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().CreateRecipeAsync(testRecipeRequest);

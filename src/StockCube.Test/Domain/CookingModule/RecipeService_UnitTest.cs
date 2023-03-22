@@ -181,7 +181,7 @@ public sealed class RecipeController_CreateRecipe_Should
         services.AddSingleton(mockValidator);
 
         // act
-        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipe(newRecipe);
+        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipeAsync(newRecipe);
 
         // assert
         response.Should().NotBeNull();
@@ -210,7 +210,7 @@ public sealed class RecipeController_CreateRecipe_Should
         services.AddSingleton(mockValidator);
 
         // act
-        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipe(testRecipe);
+        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipeAsync(testRecipe);
 
         // assert
         response.Should().NotBeNull();
@@ -244,7 +244,7 @@ public sealed class RecipeController_CreateRecipe_Should
         services.AddSingleton(mockValidator);
 
         // act
-        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipe(testRecipe);
+        var response = await services.BuildServiceProvider().GetRequiredService<IRecipeService>().CreateRecipeAsync(testRecipe);
 
         // assert
         response.Should().NotBeNull();

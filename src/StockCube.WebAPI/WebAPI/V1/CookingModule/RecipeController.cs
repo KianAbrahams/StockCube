@@ -1,8 +1,7 @@
 using Ardalis.Result;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using StockCube.Domain.CookingModule;
-using StockCube.Domain.KitchenModule;
-using StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
 namespace StockCube.WebAPI.WebAPI.V1.RecipeModule;
 
@@ -11,8 +10,13 @@ namespace StockCube.WebAPI.WebAPI.V1.RecipeModule;
 public class RecipeController : ControllerBase
 {
     private readonly IRecipeService _recipeService;
-    public RecipeController(IRecipeService recipeService)
-        => _recipeService = recipeService;
+    private readonly IMapper _mapper;
+
+    public RecipeController(IRecipeService recipeService, IMapper mapper)
+    {
+        _recipeService = recipeService;
+        _mapper = mapper;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RecipeResponseDto>>> GetListAsync()
@@ -44,7 +48,8 @@ public class RecipeController : ControllerBase
         var response = new RecipeResponseDto()
         {
             Name = result.Value.Name,
-            Id = result.Value.Id
+            Id = result.Value.Id //,
+           // Ingredients = result.Value.Ingredients
         };
         return Ok(response);
     }
@@ -69,12 +74,9 @@ public class RecipeController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<RecipeResponseDto>> CreateRecipeAsync(CreateRecipeRequestDto request)
     {
-        var recipe = new Recipe()
-        {
-            Name = request.Name
-        };
+        var recipe = _mapper.Map<Recipe>(request);
 
-        var result = await _recipeService.CreateRecipe(recipe);
+        var result = await _recipeService.CreateRecipeAsync(recipe);
 
         if (result.Status == ResultStatus.Invalid)
         {
@@ -82,11 +84,7 @@ public class RecipeController : ControllerBase
             return UnprocessableEntity(ModelState);
         }
 
-        var response = new RecipeResponseDto()
-        {
-            Name = result.Value.Name,
-            Id = result.Value.Id
-        };
+        var response = _mapper.Map<RecipeResponseDto>(result.Value);
         return CreatedAtRoute("GetById", new { SectionId = response.Id.ToString() }, response);
     }
 }

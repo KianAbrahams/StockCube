@@ -58,7 +58,7 @@ internal sealed class RecipeService : IRecipeService
         return Result.Success();
     }
 
-    public async Task<Result<Recipe>> CreateRecipe(Recipe recipe)
+    public async Task<Result<Recipe>> CreateRecipeAsync(Recipe recipe)
     {
         var validationResult = await _validator.ValidateAsync(recipe);
         if (validationResult.IsValid == false)
