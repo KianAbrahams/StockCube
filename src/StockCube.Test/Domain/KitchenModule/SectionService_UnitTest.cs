@@ -1,5 +1,6 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference
 using FluentValidation.Results;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -87,7 +88,7 @@ public sealed class SectionController_GetById_Should
         var mockRepository = Substitute.For<IKitchenRepository>();
         var mockValidator = Substitute.For<ISectionValidator>();
 
-        mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult<Section?>(null!));
+        mockRepository.GetSectionByIdAsync(sectionId).Returns(Task.FromResult<Section>(null!));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();
@@ -257,3 +258,4 @@ public sealed class SectionController_CreateSection_Should
 }
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference

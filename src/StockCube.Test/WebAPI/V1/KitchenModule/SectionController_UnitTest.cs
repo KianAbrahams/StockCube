@@ -1,5 +1,7 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference
+#pragma warning disable CS8604 // Possible null reference argument for parameter.
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -60,7 +62,7 @@ public sealed class SectionController_GetById_Should
         var sectionId = Guid.NewGuid();
         var testSection = new Section() { Id = sectionId, Name = "Section1" };
         var mockSectionService = Substitute.For<ISectionService>();
-        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section>.Success(testSection)));
+        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section?>.Success(testSection)));
 
         var services = new ServiceCollection();
         services.AddTransient<SectionController>();
@@ -88,7 +90,7 @@ public sealed class SectionController_GetById_Should
         // arrange
         var sectionId = Guid.NewGuid();
         var mockSectionService = Substitute.For<ISectionService>();
-        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section>.NotFound()));
+        mockSectionService.GetByIdAsync(sectionId).Returns(Task.FromResult(Result<Section?>.NotFound()));
 
         var services = new ServiceCollection();
         services.AddTransient<SectionController>();
@@ -220,3 +222,5 @@ public sealed class SectionController_Create_Should
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference
+#pragma warning disable CS8604 // Possible null reference argument for parameter.

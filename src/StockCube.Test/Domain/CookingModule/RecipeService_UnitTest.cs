@@ -87,7 +87,7 @@ public sealed class RecipeController_GetById_Should
         var mockRepository = Substitute.For<IRecipeRepository>();
         var mockValidator = Substitute.For<IRecipeValidator>();
 
-        mockRepository.GetRecipeByIdAsync(recipeId).Returns(Task.FromResult<Recipe?>(null!));
+        mockRepository.GetRecipeByIdAsync(recipeId).Returns(Task.FromResult<Recipe>(null!));
 
         var services = new ServiceCollection();
         services.AddStockCubeDomainModel();

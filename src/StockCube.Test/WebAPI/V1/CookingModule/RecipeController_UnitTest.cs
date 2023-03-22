@@ -1,5 +1,7 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
 #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference
+#pragma warning disable CS8604 // Possible null reference argument for parameter.
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -54,7 +56,7 @@ public sealed class RecipeController_Get_Should
 public sealed class RecipeController_GetById_Should
 {
     [Fact]
-    public async Task Return_Status200Ok_WithSelectedRecipe()
+    public async Task Return_Status200Ok_WithSelectedRecipe_WithoutIngredientsSelected()
     {
         // arrange
         var recipeId = Guid.NewGuid();
@@ -80,6 +82,45 @@ public sealed class RecipeController_GetById_Should
         var value = (RecipeResponseDto)result.Value;
         value.Should().NotBeNull();
         value.Id.Should().Be(recipeId);
+        value.Ingredients.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task Return_Status200Ok_WithSelectedRecipe_WithIngredientsSelected()
+    {
+        // arrange
+        var recipeId = Guid.NewGuid();
+        var testRecipe = new Recipe()
+        {
+            Id = recipeId,
+            Name = "Recipe1",
+            //Ingredients = new List<Ingredient>
+            //{
+            //    new Ingredient { Name = "Butter", Id = Guid.NewGuid()}
+            //}
+        };
+        var mockRecipeService = Substitute.For<IRecipeService>();
+        mockRecipeService.GetByIdAsync(recipeId).Returns(Task.FromResult(Result<Recipe>.Success(testRecipe)));
+
+        var services = new ServiceCollection();
+        services.AddTransient<RecipeController>();
+        services.AddSingleton(mockRecipeService);
+
+        // act
+        var response = await services.BuildServiceProvider().GetRequiredService<RecipeController>().GetByIdAsync(recipeId);
+
+        // assert
+        response.Should().NotBeNull();
+        response.Result.Should().BeAssignableTo<OkObjectResult>();
+
+        var result = (OkObjectResult)response.Result;
+        result.Value.Should().NotBeNull();
+        result.Value.Should().BeOfType<RecipeResponseDto>();
+
+        var value = (RecipeResponseDto)result.Value;
+        value.Should().NotBeNull();
+        value.Id.Should().Be(recipeId);
+        //value.Ingredients.Should().HaveCount(1);
     }
 
     [Fact]
@@ -220,3 +261,5 @@ public sealed class RecipeController_Create_Should
 
 #pragma warning restore CA1707 // Identifiers should not contain underscores
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Derefence from a possible null reference
+#pragma warning disable CS8604 // Possible null reference argument for parameter.
