@@ -27,6 +27,10 @@ internal class Constants
         internal class Shopping
         {
             public const string schemaName = "shopping";
+            public static string USP_UpdateShoppingList = "Kitchen.USP_UpdateShoppingList";
+            public static string USP_DeleteIngredientById = "Kitchen.USP_DeleteIngredientById";
+            public static string USP_GetShoppingList = "Kitchen.USP_GetShoppingList";
         }
     }
 }
+

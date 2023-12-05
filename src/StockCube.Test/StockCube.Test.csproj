@@ -31,8 +31,4 @@
     <ProjectReference Include="..\StockCube.WebAPI\StockCube.WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="WebAPI\V1\ShoppingModule\" />
-  </ItemGroup>
-
 </Project>

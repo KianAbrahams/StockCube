@@ -10,7 +10,7 @@
     <PackageReference Include="Ardalis.Result" />
     <PackageReference Include="Ardalis.Result.FluentValidation" />
     <PackageReference Include="FluentValidation" />
-    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="AutoMapper" />
   </ItemGroup>
 
 </Project>

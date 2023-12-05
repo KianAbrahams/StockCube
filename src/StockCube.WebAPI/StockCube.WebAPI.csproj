@@ -11,13 +11,12 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
-    <PackageReference Include="AutoMapper"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection"/>
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="WebAPI\V1\ShoppingModule\" />
   </ItemGroup>
 
   <ItemGroup>

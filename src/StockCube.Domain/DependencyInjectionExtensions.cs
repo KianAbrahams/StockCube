@@ -1,5 +1,6 @@
 using StockCube.Domain.CookingModule;
 using StockCube.Domain.KitchenModule;
+using StockCube.Domain.ShoppingModule;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,10 @@ public static class DependencyInjectionExtensions
         // Kitchen Module
         serviceCollection.AddTransient<ISectionService, SectionService>();
         serviceCollection.AddTransient<ISectionValidator, SectionValidator>();
+
+        // Kitchen Module
+        serviceCollection.AddTransient<IShoppingService, ShoppingService>();
+        serviceCollection.AddTransient<IShoppingValidator, ShoppingValidator>();
 
         return serviceCollection;
     }
