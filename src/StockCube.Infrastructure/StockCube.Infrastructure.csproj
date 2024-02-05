@@ -15,9 +15,9 @@
     <PackageReference Include="Dapper" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
-    <PackageReference Include="MySqlConnector" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Ardalis.GuardClauses" />
+    <PackageReference Include="System.Data.SqlClient" />
   </ItemGroup>
 
 </Project>

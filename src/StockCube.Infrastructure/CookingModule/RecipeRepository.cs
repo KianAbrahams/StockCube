@@ -8,9 +8,9 @@ namespace StockCube.Infrastructure.CookingModule;
 internal class RecipeRepository : IRecipeRepository
 {
     // TODO: Write USP for each method.
-    private readonly MySqlConnectionManager _mySqlConnectionManager;
+    private readonly SqlConnectionManager _mySqlConnectionManager;
 
-    public RecipeRepository(KitchenMySqlConnectionManager mySqlConnectionManager)
+    public RecipeRepository(KitchenSqlConnectionManager mySqlConnectionManager)
     => _mySqlConnectionManager = mySqlConnectionManager;
     public async Task<Recipe> CreateRecipe(Recipe recipe)
     {

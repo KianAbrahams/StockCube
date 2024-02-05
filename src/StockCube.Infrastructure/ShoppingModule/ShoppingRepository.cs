@@ -9,9 +9,9 @@ namespace StockCube.Infrastructure.ShoppingModule;
 
 internal class ShoppingRepository : IShoppingRepository
 {
-    private readonly MySqlConnectionManager _mySqlConnectionManager;
+    private readonly SqlConnectionManager _mySqlConnectionManager;
 
-    public ShoppingRepository(KitchenMySqlConnectionManager mySqlConnectionManager)
+    public ShoppingRepository(KitchenSqlConnectionManager mySqlConnectionManager)
         => _mySqlConnectionManager = mySqlConnectionManager;
 
     public async Task<IEnumerable<Ingredient>> GetShoppingListAsync()

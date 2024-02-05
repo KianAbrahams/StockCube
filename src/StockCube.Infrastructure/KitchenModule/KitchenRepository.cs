@@ -7,9 +7,9 @@ namespace StockCube.Infrastructure.KitchenModule;
 
 internal class KitchenRepository : IKitchenRepository
 {
-    private readonly MySqlConnectionManager _mySqlConnectionManager;
+    private readonly SqlConnectionManager _mySqlConnectionManager;
 
-    public KitchenRepository(KitchenMySqlConnectionManager mySqlConnectionManager)
+    public KitchenRepository(KitchenSqlConnectionManager mySqlConnectionManager)
         => _mySqlConnectionManager = mySqlConnectionManager;
 
     public async Task<Section> CreateSection(Section section)

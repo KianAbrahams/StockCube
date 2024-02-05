@@ -28,16 +28,16 @@ public static class DependencyInjectionExtensions
     private static IServiceCollection AddConnectionManagers(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
         var kitchenConnectionString = configuration.GetConnectionString("Kitchen");
-        serviceCollection.AddTransient(x => new KitchenMySqlConnectionManager(kitchenConnectionString));
+        serviceCollection.AddTransient(x => new KitchenSqlConnectionManager(kitchenConnectionString));
 
         var cookingConnectionString = configuration.GetConnectionString("Cooking");
-        serviceCollection.AddTransient(x => new CookingMySqlConnectionManager(cookingConnectionString));
+        serviceCollection.AddTransient(x => new CookingSqlConnectionManager(cookingConnectionString));
 
         var shoppingConnectionString = configuration.GetConnectionString("Shopping");
-        serviceCollection.AddTransient(x => new ShoppingMySqlConnectionManager(shoppingConnectionString));
+        serviceCollection.AddTransient(x => new ShoppingSqlConnectionManager(shoppingConnectionString));
 
         var dboConnectionString = configuration.GetConnectionString("dbo");
-        serviceCollection.AddTransient(x => new DBOMySqlConnectionManager(dboConnectionString));
+        serviceCollection.AddTransient(x => new DBOSqlConnectionManager(dboConnectionString));
 
         return serviceCollection;
     }

@@ -1,48 +1,48 @@
 using System.Data;
+using System.Data.SqlClient;
 using Ardalis.GuardClauses;
-using MySqlConnector;
 
 namespace StockCube.Infrastructure.MySQL;
 
-internal class KitchenMySqlConnectionManager : MySqlConnectionManager
+internal class KitchenSqlConnectionManager : SqlConnectionManager
 {
-    public KitchenMySqlConnectionManager(string? connectionString)
+    public KitchenSqlConnectionManager(string? connectionString)
         : base(connectionString) { }
 }
 
-internal class CookingMySqlConnectionManager : MySqlConnectionManager
+internal class CookingSqlConnectionManager : SqlConnectionManager
 {
-    public CookingMySqlConnectionManager(string? connectionString)
+    public CookingSqlConnectionManager(string? connectionString)
         : base(connectionString) { }
 }
 
-internal class ShoppingMySqlConnectionManager : MySqlConnectionManager
+internal class ShoppingSqlConnectionManager : SqlConnectionManager
 {
-    public ShoppingMySqlConnectionManager(string? connectionString)
+    public ShoppingSqlConnectionManager(string? connectionString)
         : base(connectionString) { }
 }
 
-internal class DBOMySqlConnectionManager : MySqlConnectionManager
+internal class DBOSqlConnectionManager : SqlConnectionManager
 {
-    public DBOMySqlConnectionManager(string? connectionString)
+    public DBOSqlConnectionManager(string? connectionString)
         : base(connectionString) { }
 }
 
-internal abstract class MySqlConnectionManager
+internal abstract class SqlConnectionManager
 {
     private readonly string _connectionString = string.Empty;
 
-    public MySqlConnection CreateConnection() => new MySqlConnection(_connectionString);
+    public SqlConnection CreateConnection() => new SqlConnection(_connectionString);
 
-    public async Task<MySqlConnection> CreateConnectionAsync()
+    public async Task<SqlConnection> CreateConnectionAsync()
     {
-        var connection = new MySqlConnection(_connectionString);
+        var connection = new SqlConnection(_connectionString);
         await connection.OpenAsync().ConfigureAwait(false);
         if (connection.State != ConnectionState.Open)
             throw new Exception("Connection Failed");
         return connection;
     }
 
-    public MySqlConnectionManager(string? connectionString)
+    public SqlConnectionManager(string? connectionString)
         => _connectionString = Guard.Against.NullOrEmpty(connectionString);
 }
