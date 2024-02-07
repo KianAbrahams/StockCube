@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using StockCube.UI;
 using MudBlazor.Services;
+using StockCube.WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +12,7 @@ builder.Services.AddMudServices();
 builder.Services.AddStockCubeDomainModel();
 builder.Services.AddStockCubeInfrastructure(builder.Configuration);
 builder.Services.AddStockCubeUI();
+builder.Services.AddWebAPI();
 
 var app = builder.Build();
 

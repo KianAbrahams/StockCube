@@ -6,7 +6,7 @@ namespace StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
 [Route("api/[controller]")]
 [ApiController]
-public sealed class SectionController : ControllerBase
+public sealed class SectionController : ControllerBase, ISectionController
 {
     private readonly ISectionService _sectionService;
 
