@@ -19,6 +19,7 @@
     <ProjectReference Include="..\StockCube.Domain\StockCube.Domain.csproj" />
     <ProjectReference Include="..\StockCube.Infrastructure\StockCube.Infrastructure.csproj" />
     <ProjectReference Include="..\StockCube.UI\StockCube.UI.csproj" />
+    <ProjectReference Include="..\StockCube.WebAPI\StockCube.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

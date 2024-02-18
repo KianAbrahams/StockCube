@@ -8,5 +8,4 @@ public interface IAddSectionViewModel
     Guid SectionId { get; set; }
 
     IAsyncRelayCommand SaveCommand { get; }
-    IRelayCommand CancelCommand { get; }
 }

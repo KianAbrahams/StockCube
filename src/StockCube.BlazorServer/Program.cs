@@ -11,8 +11,8 @@ builder.Services.AddMudServices();
 
 builder.Services.AddStockCubeDomainModel();
 builder.Services.AddStockCubeInfrastructure(builder.Configuration);
-builder.Services.AddStockCubeUI();
 builder.Services.AddWebAPI();
+builder.Services.AddStockCubeUI();
 
 var app = builder.Build();
 

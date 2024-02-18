@@ -1,9 +1,16 @@
 @using StockCube.UI.Kitchen;
 @using StockCube.UI;
+@page "/AddSection"
 @inject IAddSectionViewModel vm;
-<h3>AddSection</h3>
 
-<input type="text" @bind="vm.Name"/>
+<MudText Class="mb-2" Typo="Typo.h2">Add Section</MudText>
 
-<button type="submit" @onclick="() => vm.SaveCommand.ExecuteAsync(null)">Save</button>
-
+<MudCard>
+    <MudForm >
+        <MudCardContent >
+            <MudTextField Label="Section Name" @bind-Value="@vm.Name" />
+        </MudCardContent>
+    </MudForm>
+</MudCard>
+<MudButton class="mb-2 mt-2" Typo="Typo.subtitle1" @onclick="() => vm.SaveCommand.ExecuteAsync(null)" Variant="Variant.Filled" Color="Color.Primary">Save Section</MudButton>
+<MudButton class="mb-2 mt-2" Typo="Typo.subtitle1" href="/Kitchen" Variant="Variant.Filled" Color="Color.Primary">Cancel</MudButton>
