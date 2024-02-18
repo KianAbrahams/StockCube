@@ -14,13 +14,13 @@ public sealed class SectionController : ControllerBase, ISectionController
         => _sectionService = sectionService;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<SectionResponseDto>>> GetListAsync()
+    public async Task<ActionResult<IList<SectionResponseDto>>> GetListAsync()
     {
         var result = await _sectionService.GetListAsync();
         var response = new List<SectionResponseDto>();
         foreach (var section in result.Value)
         {
-            response.Add(new SectionResponseDto { Name = section.Name, Id = section.Id });
+            response.Add(new SectionResponseDto { name = section.Name, Id = section.Id });
         }
         return Ok(response.AsEnumerable());
     }
@@ -42,7 +42,7 @@ public sealed class SectionController : ControllerBase, ISectionController
 
         var response = new SectionResponseDto()
         {
-            Name = result.Value.Name,
+            name = result.Value.Name,
             Id = result.Value.Id
         };
         return Ok(response);
@@ -83,7 +83,7 @@ public sealed class SectionController : ControllerBase, ISectionController
 
         var response = new SectionResponseDto()
         {
-            Name = result.Value.Name,
+            name = result.Value.Name,
             Id = result.Value.Id
         };
         return CreatedAtRoute("GetById", new { SectionId = response.Id.ToString() }, response);

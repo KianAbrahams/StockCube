@@ -1,5 +1,6 @@
 @page "/kitchen"
-@*@inject vm = IKitchenViewModel*@
+@using StockCube.UI.Kitchen
+@inject IKitchenViewModel vm;
 
 <PageTitle>Kitchen</PageTitle>
 <MudStack>
@@ -7,16 +8,18 @@
     <MudIcon Icon="@Icons.Material.Outlined.Kitchen" Title="Kitchen" />
     <MudText class="mb-2" Typo="Typo.h6">Kitchen</MudText>
   </MudStack>
-  <MudText class="mb-2" Typo="Typo.subtitle1">WIP</MudText>
 
   <!--Table header-->
   <MudStack Spacing="1">
     <MudPaper Class="d-flex align-end flex-grow-1 gap-4" Elevation="0">
       <MudText Align="Align.Center" class="object-bottom" Typo="Typo.h6">Section</MudText>
       <MudSelect Dense="true" T="string" Label="Coffee" Variant="Variant.Outlined">
-          <MudSelectItem Value="@("Tyrannosaur")" />
-          <MudSelectItem Value="@("Triceratops")" />
-          <MudSelectItem Value="@("Henon Rex")" />
+                @{
+                    foreach(string item in vm.ListOfSections)
+                    {
+                        <MudSelectItem Value="@(item.ToString())" />
+                    }
+                }
       </MudSelect>
             <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info"></MudButton>
     </MudPaper>
@@ -45,7 +48,7 @@
       </MudTd>
     </RowTemplate>
     <FooterContent>
-      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Tertiary">Refresh</MudButton>
+                <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" OnClick="() => vm.Refresh()" Color="Color.Tertiary">Refresh</MudButton>
       <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info">Add</MudButton>
     </FooterContent>
   </MudTable>
