@@ -48,7 +48,7 @@ public sealed class SectionController_Get_Should
         items.First().Should().BeOfType<SectionResponseDto>();
         for (var i = 0; i < value.Count(); i++)
         {
-            items[i].Name.Should().Be(testSection[i].Name);
+            items[i].name.Should().Be(testSection[i].Name);
         }
     }
 }
@@ -178,7 +178,7 @@ public sealed class SectionController_Create_Should
 
         var value = (SectionResponseDto)result.Value!;
         value.Id.Should().Be(testSection.Id);
-        value.Name.Should().Be(testSection.Name);
+        value.name.Should().Be(testSection.Name);
     }
 
     [Fact]
