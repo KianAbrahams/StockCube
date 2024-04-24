@@ -10,4 +10,7 @@ public interface IKitchenRepository
 
     Task<bool> DeleteSectionByIdAsync(Guid sectionId);
     Task<Section> CreateSection(Section section);
+
+    Task<IEnumerable<SectionFoodItem>> GetSectionFoodItemListAsync(Guid sectionId);
+    Task<SectionFoodItem> CreateSectionFoodItem(SectionFoodItem sectionFoodItem);
 }

@@ -48,4 +48,26 @@ internal class KitchenRepository : IKitchenRepository
         await connection.CloseAsync().ConfigureAwait(false);
         return result;
     }
+
+    public async Task<IEnumerable<SectionFoodItem>> GetSectionFoodItemListAsync(Guid sectionId)
+    {
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+
+        // TODO: Write new stored procedure for getting 
+        var result = await connection.QueryAsync<SectionFoodItem>(Constants.Db.Kitchen.USP_GetSectionList, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return result;
+    }
+
+    public async Task<SectionFoodItem> CreateSectionFoodItem(SectionFoodItem sectionFoodItem)
+    {
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+
+        sectionFoodItem.FoodItemId = Guid.NewGuid();
+        sectionFoodItem.SectionFoodItemId = Guid.NewGuid();
+        // TODO: Write new stored procedure for creating a new SectionFoodItem
+        await connection.ExecuteAsync(Constants.Db.Kitchen.USP_CreateSection, sectionFoodItem, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return sectionFoodItem;
+    }
 }

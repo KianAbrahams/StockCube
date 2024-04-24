@@ -3,6 +3,11 @@ namespace StockCube.Domain.KitchenModule
     public interface ISectionValidator : IValidator<Section> { }
 }
 
+namespace StockCube.Domain.KitchenModule
+{
+    public interface ISectionFoodItemValidator : IValidator<SectionFoodItem> { }
+}
+
 namespace StockCube.Domain.CookingModule
 {
     public interface IRecipeValidator : IValidator<Recipe> { }
