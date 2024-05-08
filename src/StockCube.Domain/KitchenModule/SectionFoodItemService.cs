@@ -30,10 +30,20 @@ internal sealed class SectionFoodItemService : ISectionFoodItemService
 
         var result = await _repository.CreateSectionFoodItem(sectionFoodItem);
         if (result == null)
-        {
             return Result<SectionFoodItem>.Error();
-        }
             
         return Result<SectionFoodItem>.Success(result);
     }
+
+    public async Task<Result<SectionFoodItem>> UpdateSectionFoodItem(SectionFoodItem sectionFoodItem)
+    {
+        // TODO: write validation for SectionFoodItem
+
+        var result = await _repository.UpdateSectionFoodItem(sectionFoodItem);
+        if (result == null)
+            return Result<SectionFoodItem>.Error();
+
+        return Result<SectionFoodItem>.Success(result);
+    }
+
 }

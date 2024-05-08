@@ -70,4 +70,13 @@ internal class KitchenRepository : IKitchenRepository
         await connection.CloseAsync().ConfigureAwait(false);
         return sectionFoodItem;
     }
+
+    public async Task<SectionFoodItem> UpdateSectionFoodItem(SectionFoodItem sectionFoodItem)
+    {
+        using var connection = await _mySqlConnectionManager.CreateConnectionAsync();
+        // TODO: Write new stored procedure for creating a new SectionFoodItem
+        await connection.ExecuteAsync(Constants.Db.Kitchen.USP_CreateSection, sectionFoodItem, commandType: CommandType.StoredProcedure).ConfigureAwait(false);
+        await connection.CloseAsync().ConfigureAwait(false);
+        return sectionFoodItem;
+    }
 }

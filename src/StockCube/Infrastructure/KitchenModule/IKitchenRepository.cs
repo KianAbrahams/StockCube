@@ -13,4 +13,5 @@ public interface IKitchenRepository
 
     Task<IEnumerable<SectionFoodItem>> GetSectionFoodItemListAsync(Guid sectionId);
     Task<SectionFoodItem> CreateSectionFoodItem(SectionFoodItem sectionFoodItem);
+    Task<SectionFoodItem> UpdateSectionFoodItem(SectionFoodItem sectionFoodItem);
 }

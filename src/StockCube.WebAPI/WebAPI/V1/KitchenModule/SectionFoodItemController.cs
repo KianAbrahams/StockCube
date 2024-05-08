@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using StockCube.Domain.KitchenModule;
 
@@ -61,5 +62,27 @@ public sealed class SectionFoodItemsController : ControllerBase, ISectionFoodIte
             UnitName = result.Value.UnitName
         };
         return CreatedAtRoute("GetById", new { SectionFoodItemId = response.SectionFoodItemId.ToString() }, response);
+    }
+    [HttpPut]
+    public async Task<ActionResult<SectionFoodItemResponseDto>> UpdateSectionFoodItem(UpdateSectionFoodItemResponseDto request)
+    {
+        var sectionFoodItem = new SectionFoodItem()
+        {
+            SectionFoodItemId = request.SectionFoodItemId,
+            SectionId = request.SectionId,
+            Name = request.Name,
+            Description = request.Description,
+            UnitName = request.UnitName
+        };
+
+        var result = await _sectionFoodItemService.UpdateSectionFoodItem(sectionFoodItem);
+
+        if (result.Status == ResultStatus.Invalid)
+        {
+            result.ValidationErrors.ToList().ForEach(error => ModelState.AddModelError(error.Identifier, error.ErrorMessage));
+            return UnprocessableEntity(ModelState);
+        }
+
+        return Ok(result);
     }
 }
