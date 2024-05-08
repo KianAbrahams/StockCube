@@ -46,4 +46,22 @@ internal sealed class SectionFoodItemService : ISectionFoodItemService
         return Result<SectionFoodItem>.Success(result);
     }
 
+    public async Task<Result> DeleteSectionFoodItemAsync(Guid sectionFoodItemId)
+    {
+        if (sectionFoodItemId == Guid.Empty)
+        {
+            // TODO: Convert Id to valid type and add validator to do this ...
+            return Result.Invalid(new List<ValidationError>()
+            {
+                new ValidationError() { Identifier = "Id", ErrorMessage = "Invalid Id"}
+            });
+        }
+        var result = await _repository.DeleteSectionFoodItemAsync(sectionFoodItemId);
+
+        if (result == false)
+            return Result.NotFound();
+
+        return Result.Success();
+    }
+
 }

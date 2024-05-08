@@ -85,4 +85,21 @@ public sealed class SectionFoodItemsController : ControllerBase, ISectionFoodIte
 
         return Ok(result);
     }
+
+    [HttpDelete("{SectionId}")]
+    public async Task<ActionResult> DeleteAsync(Guid sectionFoodItemId)
+    {
+        var result = await _sectionFoodItemService.DeleteSectionFoodItemAsync(sectionFoodItemId);
+
+        if (result.Status == ResultStatus.Invalid)
+        {
+            result.ValidationErrors.ToList().ForEach((error) => ModelState.AddModelError(error.Identifier, error.ErrorMessage));
+            return BadRequest(ModelState);
+        }
+        if (result.Status == ResultStatus.NotFound)
+        {
+            return NotFound();
+        }
+        return Ok();
+    }
 }
