@@ -14,25 +14,25 @@
     <MudPaper Class="d-flex align-end flex-grow-1 gap-4" Elevation="0">
       <MudText Align="Align.Center" class="object-bottom" Typo="Typo.h6">Section</MudText>
       <MudSelect Dense="true" T="string" Variant="Variant.Outlined">
-                @{
-                    foreach(string item in vm.ListOfSections)
-                    {
-                        <MudSelectItem Value="@(item.ToString())" />
-                    }
-                }
+      @{
+          foreach(string item in vm.ListOfSections)
+          {
+              <MudSelectItem Value="@(item.ToString())" />
+          }
+      }
       </MudSelect>
-            <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info"></MudButton>
+    <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info"></MudButton>
     </MudPaper>
   </MudStack>
 
   <!--Main Table-->
-  <MudTable Items="@_foodItems" Striped="true" Dense="true">
+  <MudTable Items="@vm.FoodItems" Striped="true" Dense="true">
 
     <HeaderContent>
       <MudTh>Name</MudTh>
       <MudTh>Amount</MudTh>
       <MudTh>Units</MudTh>
-          <MudTh>Quantity</MudTh>
+      <MudTh>Quantity</MudTh>
       <MudTh>Expiry Date</MudTh>
       <MudTh>&nbsp;</MudTh>
     </HeaderContent>
@@ -48,54 +48,8 @@
       </MudTd>
     </RowTemplate>
     <FooterContent>
-                <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" OnClick="() => vm.Refresh()" Color="Color.Tertiary">Refresh</MudButton>
+      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" OnClick="() => vm.Refresh()" Color="Color.Tertiary">Refresh</MudButton>
       <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info">Add</MudButton>
     </FooterContent>
   </MudTable>
 </MudStack>
-
-@code {
-    public class FoodItemViewModel
-    {
-        public string Name { get; set; }
-        public double Amount { get; set; }
-        public string Units { get; set; }
-        public string Quantity { get; set; }
-        public string ExpiryDate { get; set; }
-    }
-    public List<FoodItemViewModel> _foodItems = new()
-    {
-      new ()
-      {
-        Name="Chicken",
-        Amount=100,
-        Units="g",
-        Quantity="1x",
-        ExpiryDate="03-feb-2023"
-      },
-      new ()
-      {
-        Name="Maris Piper Potatoes",
-        Amount=2.5,
-        Units="kg",
-        Quantity="1x",
-        ExpiryDate="19-feb-2023"
-      },
-      new ()
-      {
-        Name="Semi Skimmed Milk",
-        Amount=4,
-        Units="pints",
-        Quantity="3x",
-        ExpiryDate="10-feb-2023"
-      },
-      new ()
-      {
-        Name="Heniz Baked Beans",
-        Amount=415,
-        Units="g",
-        Quantity="16x",
-        ExpiryDate="03-feb-2024"
-      }
-    };
-}
