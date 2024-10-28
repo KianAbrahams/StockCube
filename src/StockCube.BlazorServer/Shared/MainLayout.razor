@@ -12,6 +12,7 @@
         <MudText Typo="Typo.h5">Stock Cube</MudText>
         <MudSpacer />
         <MudIconButton Icon="@_modeIcon" Color="Color.Inherit" OnClick="@((e) => OnIsDarkModeChanged(!_isDarkMode))" />
+        <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Href="/Login" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen" Width="140px" Variant="@DrawerVariant.Mini" ClipMode="DrawerClipMode.Always" Elevation="2">
         <MudNavMenu Dense="false">

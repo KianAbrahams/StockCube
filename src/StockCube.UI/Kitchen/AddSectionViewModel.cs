@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.AspNetCore.Components;
 using StockCube.UI.Shared;
 using StockCube.WebAPI.WebAPI.V1.KitchenModule;
 
@@ -21,7 +20,7 @@ internal partial class AddSectionViewModel : ViewModelBase, IAddSectionViewModel
     [RelayCommand]
     public async Task<Task> SaveAsync()
     {
-        var request = await _sectionController.CreateSectionAsync(new CreateSectionRequestDto()
+        await _sectionController.CreateSectionAsync(new CreateSectionRequestDto()
         {
             Name = this.Name,
         });

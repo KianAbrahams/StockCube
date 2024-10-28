@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using StockCube.UI.Kitchen;
+using StockCube.UI.Login;
 
 namespace StockCube.UI;
 
@@ -9,6 +10,7 @@ public static class DependencyInjectionExtensions
     {
         serviceCollection.AddTransient<IAddSectionViewModel, AddSectionViewModel>();
         serviceCollection.AddTransient<IKitchenViewModel, KitchenViewModel>();
+        serviceCollection.AddTransient<ILoginViewModel, LoginViewModel>();
         return serviceCollection;
     }
 }
