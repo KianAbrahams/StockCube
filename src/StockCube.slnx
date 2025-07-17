@@ -1,0 +1,21 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="../docs/Kitchen stock app.pdf" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="StockCube.AppHost/StockCube.AppHost.csproj" />
+  <Project Path="StockCube.BlazorServer/StockCube.BlazorServer.csproj" />
+  <Project Path="StockCube.Database/StockCube.Database.sqlproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="StockCube.Domain/StockCube.Domain.csproj" />
+  <Project Path="StockCube.Infrastructure/StockCube.Infrastructure.csproj" />
+  <Project Path="StockCube.ServiceDefaults/StockCube.ServiceDefaults.csproj" />
+  <Project Path="StockCube.Test/StockCube.Test.csproj" />
+  <Project Path="StockCube.UI/StockCube.UI.csproj" />
+  <Project Path="StockCube.WebAPI/StockCube.WebAPI.csproj" />
+  <Project Path="StockCube/StockCube.csproj" />
+</Solution>
