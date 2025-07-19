@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>0c4676b7-cadb-492b-8683-bbc4a8d96504</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockCube.BlazorServer\StockCube.BlazorServer.csproj" />
+    <ProjectReference Include="..\StockCube.Domain\StockCube.Domain.csproj" />
+    <ProjectReference Include="..\StockCube.Infrastructure\StockCube.Infrastructure.csproj" />
+    <ProjectReference Include="..\StockCube.WebAPI\StockCube.WebAPI.csproj" />
+  </ItemGroup>
+
+</Project>

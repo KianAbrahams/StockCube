@@ -1,55 +1,217 @@
 @page "/kitchen"
 @using StockCube.UI.Kitchen
-@inject IKitchenViewModel vm;
+@inject IKitchenViewModel ViewModel
 
-<PageTitle>Kitchen</PageTitle>
-<MudStack>
-  <MudStack Spacing="1" Row="true">
-    <MudIcon Icon="@Icons.Material.Outlined.Kitchen" Title="Kitchen" />
-    <MudText class="mb-2" Typo="Typo.h6">Kitchen</MudText>
-  </MudStack>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4">
+    <MudText Typo="Typo.h3" Class="mb-4">Kitchen Storage Management</MudText>
 
-  <!--Table header-->
-  <MudStack Spacing="1">
-    <MudPaper Class="d-flex align-end flex-grow-1 gap-4" Elevation="0">
-      <MudText Align="Align.Center" class="object-bottom" Typo="Typo.h6">Section</MudText>
-      <MudSelect Dense="true" T="string" Variant="Variant.Outlined">
-      @{
-          foreach(string item in vm.ListOfSections)
-          {
-              <MudSelectItem Value="@(item.ToString())" />
-          }
-      }
-      </MudSelect>
-    <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info"></MudButton>
-    </MudPaper>
-  </MudStack>
+    @if (ViewModel.ExpiringItems.Any())
+    {
+        <MudAlert Severity="Severity.Warning" Class="mb-4">
+            <MudText>Items expiring this month:</MudText>
+            <MudList Dense="true">
+                @foreach (var item in ViewModel.ExpiringItems)
+                {
+                    <MudListItem>
+                        @item.Description (Expires: @item.ExpiryDate.ToString("MM/dd/yyyy"))
+                    </MudListItem>
+                }
+            </MudList>
+        </MudAlert>
+    }
 
-  <!--Main Table-->
-  <MudTable Items="@vm.FoodItems" Striped="true" Dense="true">
+    <MudButton OnClick="@(() => ViewModel.ShowAllSections = !ViewModel.ShowAllSections)"
+    Color="Color.Primary" Class="mb-4">
+        @(ViewModel.ShowAllSections ? "Collapse All" : "Expand All")
+    </MudButton>
 
-    <HeaderContent>
-      <MudTh>Name</MudTh>
-      <MudTh>Amount</MudTh>
-      <MudTh>Units</MudTh>
-      <MudTh>Quantity</MudTh>
-      <MudTh>Expiry Date</MudTh>
-      <MudTh>&nbsp;</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-      <MudTd DataLabel="Name">@context.Name</MudTd>
-      <MudTd DataLabel="Amount">@context.Amount</MudTd>
-      <MudTd DataLabel="Units">@context.Units</MudTd>
-      <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
-      <MudTd DataLabel="Expiry Date">@context.ExpiryDate</MudTd>
-      <MudTd>
-        <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Edit" Color="Color.Info">Edit</MudButton>
-        <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error">Delete</MudButton>
-      </MudTd>
-    </RowTemplate>
-    <FooterContent>
-      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Refresh" OnClick="() => vm.Refresh()" Color="Color.Tertiary">Refresh</MudButton>
-      <MudButton Size="Size.Medium" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add" Color="Color.Info">Add</MudButton>
-    </FooterContent>
-  </MudTable>
-</MudStack>
+    <MudButton OnClick="@AddNewSection" Color="Color.Primary" Class="ml-2 mb-4">
+        Add New Section
+    </MudButton>
+
+    @foreach (var kitchenSection in ViewModel.Sections)
+    {
+        <MudExpansionPanel IsInitiallyExpanded="@ViewModel.ShowAllSections">
+            <TitleContent>
+                <MudText Typo="Typo.h6">@kitchenSection.Name</MudText>
+            </TitleContent>
+            <ChildContent>
+                <MudPaper Class="pa-4">
+                    <!--TODO: Change OnClick to be DeleteSection instead of DeleteSelectedItems-->
+                    <MudButton OnClick="@(() => DeleteSelectedItems(kitchenSection))"
+                    Color="Color.Error" Class="mb-4 ml-2">
+                        Delete Section
+                    </MudButton>
+                    @foreach (var kitchenSection in ViewModel.Sections)
+                    {
+                        <MudExpansionPanel IsInitiallyExpanded="@ViewModel.ShowAllSections">
+                            <TitleContent>
+                                <MudText Typo="Typo.h6">@kitchenSection.Name</MudText>
+                            </TitleContent>
+                            <ChildContent>
+                                <MudPaper Class="pa-4">
+                                    <MudButton OnClick="@(() => AddItemToSection(kitchenSection))"
+                                    Color="Color.Primary" Class="mb-4">
+                                        Add Item
+                                    </MudButton>
+                                    <MudButton OnClick="@(() => DeleteSelectedItems(kitchenSection))"
+                                    Color="Color.Error" Class="mb-4 ml-2">
+                                        Delete Selected
+                                    </MudButton>
+                                    <MudTable Items="@kitchenSection.Items" Dense="true" Hover="true"
+                                    MultiSelection="true" @bind-SelectedItems="_selectedItems">
+                                        <HeaderContent>
+                                            <MudTh>Description</MudTh>
+                                            <MudTh>Amount</MudTh>
+                                            <MudTh>Unit</MudTh>
+                                            <MudTh>Quantity</MudTh>
+                                            <MudTh>Expiry Date</MudTh>
+                                            <MudTh>Actions</MudTh>
+                                        </HeaderContent>
+                                        <RowTemplate>
+                                            <MudTd>@context.Description</MudTd>
+                                            <MudTd>@context.Amount</MudTd>
+                                            <MudTd>@context.Unit</MudTd>
+                                            <MudTd>@context.Quantity</MudTd>
+                                            <MudTd>
+                                                <MudText Color="@(IsExpiringSoon(context) ? Color.Error : Color.Default)">
+                                                    @context.ExpiryDate.ToString("MM/dd/yyyy")
+                                                </MudText>
+                                            </MudTd>
+                                            <MudTd>
+                                                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                                OnClick="@(() => EditItem(kitchenSection, context))" />
+                                                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                OnClick="@(() => DeleteItem(kitchenSection, context))" />
+                                            </MudTd>
+                                        </RowTemplate>
+                                    </MudTable>
+                                </MudPaper>
+                            </ChildContent>
+                        </MudExpansionPanel>
+                    }
+
+                    }
+                </MudPaper>
+            </ChildContent>
+        </MudExpansionPanel>
+    }
+</MudContainer>
+
+<MudDialog @bind-IsVisible="_dialogVisible">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@_dialogTitle</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_isEditingSection)
+        {
+            <MudTextField @bind-Value="_editedSection.Name" Label="Section Name"
+            MaxLength="30" />
+        }
+        else
+        {
+            <MudTextField @bind-Value="_editedItem.Description" Label="Description" />
+            <MudNumericField @bind-Value="_editedItem.Amount" Label="Amount" />
+            <MudTextField @bind-Value="_editedItem.Unit" Label="Unit" />
+            <MudNumericField @bind-Value="_editedItem.Quantity" Label="Quantity" />
+            <MudDatePicker @bind-Value="_editedItem.ExpiryDate" Label="Expiry Date" />
+
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CancelDialog">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SaveDialog">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private HashSet<KitchenItem> _selectedItems = new();
+    private bool _dialogVisible;
+    private string _dialogTitle = "";
+    private bool _isEditingSection;
+    private KitchenSection _editedSection = new();
+    private KitchenItem _editedItem = new();
+    private KitchenSection? _currentSection;
+
+    private void AddNewSection()
+    {
+        _isEditingSection = true;
+        _editedSection = new KitchenSection();
+        _dialogTitle = "Add New Section";
+        _dialogVisible = true;
+    }
+
+    private void AddItemToSection(KitchenSection section)
+    {
+        _isEditingSection = false;
+        _editedItem = new KitchenItem();
+        _currentSection = section;
+        _dialogTitle = "Add New Item";
+        _dialogVisible = true;
+    }
+
+    private void EditItem(KitchenSection section, KitchenItem item)
+    {
+        _isEditingSection = false;
+        _editedItem = new KitchenItem
+        {
+            Id = item.Id,
+            Description = item.Description,
+            Amount = item.Amount,
+            Unit = item.Unit,
+            Quantity = item.Quantity,
+            ExpiryDate = item.ExpiryDate
+        };
+        _currentSection = section;
+        _dialogTitle = "Edit Item";
+        _dialogVisible = true;
+    }
+
+    private void DeleteItem(KitchenSection section, KitchenItem item)
+    {
+        section.Items.Remove(item);
+    }
+
+    private void DeleteSelectedItems(KitchenSection section)
+    {
+        foreach (var item in _selectedItems)
+        {
+            section.Items.Remove(item);
+        }
+        _selectedItems.Clear();
+    }
+
+    private void SaveDialog()
+    {
+        if (_isEditingSection)
+        {
+            ViewModel.AddSection(_editedSection.Name);
+        }
+        else if (_currentSection != null)
+        {
+            var existingItem = _currentSection.Items.FirstOrDefault(i => i.Id == _editedItem.Id);
+            if (existingItem != null)
+            {
+                var index = _currentSection.Items.IndexOf(existingItem);
+                _currentSection.Items[index] = _editedItem;
+            }
+            else
+            {
+                _currentSection.Items.Add(_editedItem);
+            }
+        }
+
+        _dialogVisible = false;
+    }
+
+    private void CancelDialog()
+    {
+        _dialogVisible = false;
+    }
+
+    private bool IsExpiringSoon(KitchenItem item)
+    {
+        return item.ExpiryDate.Month == DateTime.Now.Month &&
+               item.ExpiryDate.Year == DateTime.Now.Year;
+    }
+}
