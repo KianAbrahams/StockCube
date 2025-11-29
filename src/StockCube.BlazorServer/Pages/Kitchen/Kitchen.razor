@@ -9,14 +9,14 @@
     {
         <MudAlert Severity="Severity.Warning" Class="mb-4">
             <MudText>Items expiring this month:</MudText>
-            <MudList Dense="true">
+@*             <MudList Dense="true">
                 @foreach (var item in ViewModel.ExpiringItems)
                 {
                     <MudListItem>
                         @item.Description (Expires: @item.ExpiryDate.ToString("MM/dd/yyyy"))
                     </MudListItem>
                 }
-            </MudList>
+            </MudList> *@
         </MudAlert>
     }
 

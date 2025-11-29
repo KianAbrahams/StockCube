@@ -1,13 +1,8 @@
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Mail;
-using System.Reflection.Metadata;
-using StockCube.Domain;
-using StockCube.WebAPI;
 using AutoMapper;
-using FluentAssertions;
-using Xunit;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using StockCube.Domain.CookingModule;
 using StockCube.WebAPI.WebAPI.V1.RecipeModule;
 
@@ -17,10 +12,16 @@ public class WebAPIMappingProfile_Should
 {
     private readonly IConfigurationProvider _configuration;
     private readonly IMapper _mapper;
+    private readonly ILoggerFactory _loggerFactory;
 
     public WebAPIMappingProfile_Should()
     {
-        _configuration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+        // We don't actually want a logger. Automapper requires one as of 9.0.0
+        _loggerFactory = NullLoggerFactory.Instance;
+
+        var config = new MapperConfigurationExpression();
+        config.AddProfile<MappingProfile>();
+        _configuration = new MapperConfiguration(config, _loggerFactory);
         _mapper = _configuration.CreateMapper();
     }
 
