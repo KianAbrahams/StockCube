@@ -28,6 +28,7 @@ public static class DependencyInjectionExtensions
 
     private static IServiceCollection AddConnectionManagers(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
+        // Fail fast with clear error messages if a connection string is missing
         var kitchenConnectionString = configuration.GetConnectionString("Kitchen")
             ?? throw new InvalidOperationException("Connection string 'Kitchen' is not configured. Ensure ConnectionStrings:Kitchen exists in appsettings or user secrets.");
         serviceCollection.AddTransient(_ => new KitchenSqlConnectionManager(kitchenConnectionString));
@@ -40,6 +41,7 @@ public static class DependencyInjectionExtensions
             ?? throw new InvalidOperationException("Connection string 'Shopping' is not configured. Ensure ConnectionStrings:Shopping exists in appsettings or user secrets.");
         serviceCollection.AddTransient(_ => new ShoppingSqlConnectionManager(shoppingConnectionString));
 
+        // Use "DBO" to match your secrets.json (case-insensitive, but keep names consistent)
         var dboConnectionString = configuration.GetConnectionString("DBO")
             ?? throw new InvalidOperationException("Connection string 'DBO' is not configured. Ensure ConnectionStrings:DBO exists in appsettings or user secrets.");
         serviceCollection.AddTransient(_ => new DBOSqlConnectionManager(dboConnectionString));

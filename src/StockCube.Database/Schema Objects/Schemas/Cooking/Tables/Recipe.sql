@@ -1,5 +1,6 @@
 CREATE TABLE Cooking.Recipe (
   RecipeId UNIQUEIDENTIFIER NOT NULL,
   RecipeName EntityName,
+  CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
   PRIMARY KEY (RecipeId)
 )

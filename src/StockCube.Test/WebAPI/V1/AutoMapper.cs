@@ -16,13 +16,15 @@ public class WebAPIMappingProfile_Should
 
     public WebAPIMappingProfile_Should()
     {
-        // We don't actually want a logger. Automapper requires one as of 9.0.0
-        _loggerFactory = NullLoggerFactory.Instance;
+        // Newer AutoMapper versions no longer expose the ctor that accepted an ILoggerFactory.
+        // Create configuration using the Action overload and then build the mapper.
+        var configuration = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<MappingProfile>();
+        });
 
-        var config = new MapperConfigurationExpression();
-        config.AddProfile<MappingProfile>();
-        _configuration = new MapperConfiguration(config, _loggerFactory);
-        _mapper = _configuration.CreateMapper();
+        _configuration = configuration;
+        _mapper = configuration.CreateMapper();
     }
 
     [Fact]

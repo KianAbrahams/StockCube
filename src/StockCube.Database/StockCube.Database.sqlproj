@@ -93,5 +93,7 @@
     <Build Include="Schema Objects\Schemas\Shopping\ShoppingSchema.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Types\EntityDescription.sql" />
     <Build Include="Schema Objects\Schemas\dbo\Types\EntityName.sql" />
+    <Build Include="Schema Objects\Schemas\Cooking\Programmability\USP_GetRecipeList.sql" />
+    <Build Include="Schema Objects\Schemas\Cooking\Programmability\USP_GetRecipeById.sql" />
   </ItemGroup>
 </Project>

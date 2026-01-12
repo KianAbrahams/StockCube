@@ -15,10 +15,10 @@ internal class Constants
         internal class Cooking
         {
             public const string schemaName = "cooking";
-            public const string USP_GetRecipeList = "kitchen.USP_GetSectionList";
-            public const string USP_GetRecipeById = "kitchen.USP_GetSectionById";
-            public const string USP_DeleteRecipeById = "kitchen.USP_DeleteSectionById";
-            public const string USP_CreateRecipe = "kitchen.USP_CreateSection";
+            public const string USP_GetRecipeList = "cooking.USP_GetRecipeList";
+            public const string USP_GetRecipeById = "cooking.USP_GetRecipeById";
+            public const string USP_DeleteRecipeById = "cooking.USP_DeleteRecipeById";
+            public const string USP_CreateRecipe = "cooking.USP_CreateRecipe";
         }
         internal class dbo
         {
@@ -27,9 +27,9 @@ internal class Constants
         internal class Shopping
         {
             public const string schemaName = "shopping";
-            public static string USP_UpdateShoppingList = "Kitchen.USP_UpdateShoppingList";
-            public static string USP_DeleteIngredientById = "Kitchen.USP_DeleteIngredientById";
-            public static string USP_GetShoppingList = "Kitchen.USP_GetShoppingList";
+            public static string USP_UpdateShoppingList = "shopping.USP_UpdateShoppingList";
+            public static string USP_DeleteIngredientById = "shopping.USP_DeleteIngredientById";
+            public static string USP_GetShoppingList = "shopping.USP_GetShoppingList";
         }
     }
 }
